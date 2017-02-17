@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing;
 using System.Windows.Forms;
 
 namespace Checkers
@@ -16,17 +9,22 @@ namespace Checkers
         public Form1()
         {
             InitializeComponent();
+        }
+
+        private void button1_Click(object sender, System.EventArgs e)
+        {
+            button1.Hide();
             Button[,] buttons = new Button[8, 8];
-            bool[,] trumps = new bool[8, 8];
-            bool[,] clintons = new bool[8, 8];
-            for (int i = 0; i < 8; i++)
-                for (int j = 0; j < 8; j++)
-                {
-                    trumps[i, j] = false;
-                    clintons[i, j] = false;
-                }
+
+            Clinton clintons = new Clinton();
+            Trump trumps = new Trump();
+
+
+            //bool[,] trumps = new bool[8, 8];
+            //bool[,] clintons = new bool[8, 8];
+            
             ClientSize = new Size(550, 400);
-            //Button[,] buttons = new Button[8, 8];
+            
             for (int i = 0; i < 8; i++)
             {
                 for (int j = 0; j < 8; j++)
@@ -51,7 +49,7 @@ namespace Checkers
                             trumps[i, j] = true;
                         }
                     }
-                    button.Click += (s, e) =>
+                    button.Click += (s, ea) =>
                     {
 
                     };
@@ -59,7 +57,6 @@ namespace Checkers
                     this.Controls.Add(button);
                 }
             }
-
         }
     }
 }
