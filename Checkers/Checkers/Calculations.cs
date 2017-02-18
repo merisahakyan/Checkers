@@ -8,13 +8,12 @@ namespace Checkers
 {
     public class Calculations
     {
-        public static int CoinsCount(Trump bars)
+        public static int CoinsCount<T>(T bars) where T : ICoin
         {
-            
             int count = 0;
             for (int i = 0; i < 8; i++)
                 for (int j = 0; j < 8; j++)
-                    if(bars[i,j]==true)
+                    if (bars[i, j] == true)
                         count++;
             return count;
         }

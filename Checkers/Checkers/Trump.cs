@@ -15,7 +15,7 @@ namespace Checkers
                 for (int j = 0; j < 8; j++)
                     bar[i, j] = false;
         }
-        public bool this[int i,int j]
+        public bool this[int i, int j]
         {
             get
             {

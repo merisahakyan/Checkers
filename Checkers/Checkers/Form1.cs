@@ -40,7 +40,7 @@ namespace Checkers
                         button.FlatAppearance.BorderColor = Color.Black;
                         if (j < 3)
                         {
-
+                            button.Tag = "clinton";
                             button.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.clinton));
                             clintons[i, j] = true;
                             bars[i, j] = true;
@@ -56,16 +56,22 @@ namespace Checkers
                     if ((i + j) % 2 == 1)
                         button.Click += (s, ea) =>
                         {
-                            if ((string)button.Tag == "trump" )
+                            int i1 = button.Location.X / 50,
+                                j1 = button.Location.Y / 50;
+                            if ((string)button.Tag == "clinton")
                             {
                                 button.BackgroundImage = null;
                                 button.Tag = string.Empty;
+                                bars[i1, j1] = false;
+                                clintons[i1, j1] = false;
                             }
                             else
-                              if (button.BackgroundImage == null && Calculations.CoinsCount(trumps) <= 12)
+                              if (button.BackgroundImage == null && Calculations.CoinsCount<Clinton>(clintons) < 12)
                             {
-                                button.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.trump1));
-                                button.Tag = "trump";
+                                button.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.clinton));
+                                button.Tag = "clinton";
+                                bars[i1, j1] = true;
+                                clintons[i1, j1] = true;
                             }
                         };
                     buttons[i, j] = button;

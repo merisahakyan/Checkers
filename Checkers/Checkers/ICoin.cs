@@ -8,6 +8,7 @@ namespace Checkers
 {
     public interface ICoin
     {
+        bool this[int i, int j] { get; set; }
         bool Right(int i, int j, object obj);
         bool Left(int i, int j, object obj);
         bool BackRight(int i, int j, object obj);
