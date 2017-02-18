@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Checkers
 {
-    public class Trump : ICoin
-    {
+    public class Trump 
+    { 
         bool[,] bar = new bool[8, 8];
         public Trump()
         {

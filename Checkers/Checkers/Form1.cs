@@ -49,6 +49,7 @@ namespace Checkers
                             trumps[i, j] = true;
                         }
                     }
+                    if((i+j)%2==1)
                     button.Click += (s, ea) =>
                     {
 
