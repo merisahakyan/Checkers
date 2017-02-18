@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Calculations.cs" />
     <Compile Include="Clinton.cs" />
     <Compile Include="ICoin.cs" />
     <Compile Include="Form1.cs">

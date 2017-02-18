@@ -15,7 +15,7 @@ namespace Checkers
         {
             button1.Hide();
             Button[,] buttons = new Button[8, 8];
-            bool [,]bars = new bool[8, 8];
+            bool[,] bars = new bool[8, 8];
             for (int i = 0; i < 8; i++)
                 for (int j = 0; j < 8; j++)
                     bars[i, j] = false;
@@ -40,14 +40,14 @@ namespace Checkers
                         button.FlatAppearance.BorderColor = Color.Black;
                         if (j < 3)
                         {
-                            
+
                             button.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.clinton));
                             clintons[i, j] = true;
                             bars[i, j] = true;
                         }
                         if (j > 4 && j < 8)
                         {
-                            
+                            button.Tag = "trump";
                             button.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.trump1));
                             trumps[i, j] = true;
                             bars[i, j] = true;
@@ -56,13 +56,17 @@ namespace Checkers
                     if ((i + j) % 2 == 1)
                         button.Click += (s, ea) =>
                         {
-                                if(button.BackgroundImage!=null)
+                            if ((string)button.Tag == "trump" )
+                            {
                                 button.BackgroundImage = null;
+                                button.Tag = string.Empty;
+                            }
                             else
-                                if(button.BackgroundImage==null)
+                              if (button.BackgroundImage == null && Calculations.CoinsCount(trumps) <= 12)
+                            {
                                 button.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.trump1));
-
-
+                                button.Tag = "trump";
+                            }
                         };
                     buttons[i, j] = button;
                     this.Controls.Add(button);
