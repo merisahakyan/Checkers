@@ -58,6 +58,10 @@ namespace Checkers
                         {
                             int i1 = button.Location.X / 50,
                                 j1 = button.Location.Y / 50;
+
+
+
+
                             if ((string)button.Tag == "clinton")
                             {
                                 button.BackgroundImage = null;
@@ -73,6 +77,29 @@ namespace Checkers
                                 bars[i1, j1] = true;
                                 clintons[i1, j1] = true;
                             }
+
+
+
+
+                            if ((string)button.Tag == "trump")
+                            {
+                                button.BackgroundImage = null;
+                                button.Tag = string.Empty;
+                                bars[i1, j1] = false;
+                                trumps[i1, j1] = false;
+                            }
+                            else
+                              if (button.BackgroundImage == null && Calculations.CoinsCount<Trump>(trumps) < 12)
+                            {
+                                button.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.trump1));
+                                button.Tag = "trump";
+                                trumps[i1, j1] = true;
+                                clintons[i1, j1] = true;
+                            }
+
+
+
+
                         };
                     buttons[i, j] = button;
                     this.Controls.Add(button);

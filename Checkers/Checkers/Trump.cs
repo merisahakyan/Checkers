@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Checkers
 {
-    public class Trump 
+    public class Trump :ICoin
     { 
         bool[,] bar = new bool[8, 8];
         public Trump()
@@ -26,22 +26,43 @@ namespace Checkers
                 bar[i, j] = value;
             }
         }
-        public bool BackLeft(int i, int j)
+
+        public bool BackLeft(int i, int j, object obj)
         {
             throw new NotImplementedException();
         }
 
-        public bool BackRight(int i, int j)
+        public bool BackLeft1(int i, int j, object obj)
         {
             throw new NotImplementedException();
         }
 
-        public bool Left(int i, int j)
+        public bool BackRight(int i, int j, object obj)
         {
             throw new NotImplementedException();
         }
 
-        public bool Right(int i, int j)
+        public bool BackRight1(int i, int j, object obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Left(int i, int j, object obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Left1(int i, int j, object obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Right(int i, int j, object obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Right1(int i, int j, object obj)
         {
             throw new NotImplementedException();
         }
