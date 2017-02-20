@@ -72,7 +72,7 @@ namespace Checkers
 
 
 
-                            if (((prev == 'n' || prev == 't') && cur == 't')|| (prev == 'c' && cur == 't'))
+                            if (((prev == 'n' || prev == 't') && cur == 't') || (prev == 'c' && cur == 't') || (prev == 't' && cur == 'c') || ((prev == 'n' || prev == 'c') && cur == 'c'))
                             {
                                 previ = button.Location.X / 50;
                                 prevj = button.Location.Y / 50;
@@ -84,39 +84,25 @@ namespace Checkers
                                 buttons[previ, prevj].BackgroundImage = null;
                                 buttons[previ, prevj].Tag = string.Empty;
                                 bars[previ, prevj] = false;
-                                clintons[previ, prevj] = false;
+                                trumps[previ, prevj] = false;
                                 button.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.trump1));
                                 button.Tag = "trump";
                                 trumps[i1, j1] = true;
-                                
+
                             }
 
-                           
+                            if (prev == 'c' && cur == 'n')
+                            {
+                                buttons[previ, prevj].BackgroundImage = null;
+                                buttons[previ, prevj].Tag = string.Empty;
+                                bars[previ, prevj] = false;
+                                clintons[previ, prevj] = false;
+                                button.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.clinton));
+                                button.Tag = "clinton";
 
+                                clintons[i1, j1] = true;
 
-                            //if ((prev == 'n' || prev == 'c') && cur == 'c')
-                            //{
-                            //    previ = button.Location.X / 50;
-                            //    prevj = button.Location.Y / 50;
-
-                            //}
-                            //if (prev == 'c' && cur == 'n')
-                            //{
-                            //    buttons[previ, prevj].BackgroundImage = null;
-                            //    buttons[previ, prevj].Tag = string.Empty;
-                            //    bars[previ, prevj] = false;
-                            //    clintons[previ, prevj] = false;
-                            //    button.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.clinton));
-                            //    button.Tag = "trump";
-                                
-                            //    clintons[i1, j1] = true;
-                                
-                            //}
-                            //if (prev == 't' && cur == 'c')
-                            //{
-                            //    previ = button.Location.X / 50;
-                            //    prevj = button.Location.Y / 50;
-                            //}
+                            }
                             prev = cur;
 
 
