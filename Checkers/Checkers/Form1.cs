@@ -25,6 +25,7 @@ namespace Checkers
             Trump trumps = new Trump();
 
             int previ = 0, prevj = 0;
+            int i1, j1;
             ClientSize = new Size(550, 400);
 
             for (int i = 0; i < 8; i++)
@@ -60,17 +61,15 @@ namespace Checkers
                     if ((i + j) % 2 == 1)
                         button.Click += (s, ea) =>
                         {
-                            int i1 = button.Location.X / 50,
-                                j1 = button.Location.Y / 50;
+                            i1 = button.Location.X / 50;
+                            j1 = button.Location.Y / 50;
+
                             switch ((string)button.Tag)
                             {
                                 case "trump": cur = 't'; break;
                                 case "clinton": cur = 'c'; break;
                                 default: cur = 'n'; break;
                             }
-
-
-
 
                             if (((prev == 'n' || prev == 't') && cur == 't') || (prev == 'c' && cur == 't') || (prev == 't' && cur == 'c') || ((prev == 'n' || prev == 'c') && cur == 'c'))
                             {
@@ -84,9 +83,10 @@ namespace Checkers
                                 buttons[previ, prevj].BackgroundImage = null;
                                 buttons[previ, prevj].Tag = string.Empty;
                                 bars[previ, prevj] = false;
-                                trumps[previ, prevj] = false;
+                                bars[i1, j1] = true;
                                 button.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.trump1));
                                 button.Tag = "trump";
+                                trumps[previ, prevj] = false;
                                 trumps[i1, j1] = true;
 
                             }
@@ -96,7 +96,9 @@ namespace Checkers
                                 buttons[previ, prevj].BackgroundImage = null;
                                 buttons[previ, prevj].Tag = string.Empty;
                                 bars[previ, prevj] = false;
+                                bars[i1, j1] = true;
                                 clintons[previ, prevj] = false;
+                                clintons[i1, j1] = true;
                                 button.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.clinton));
                                 button.Tag = "clinton";
 
@@ -104,47 +106,6 @@ namespace Checkers
 
                             }
                             prev = cur;
-
-
-
-                            //if ((string)button.Tag == "clinton")
-                            //{
-                            //    button.BackgroundImage = null;
-                            //    button.Tag = string.Empty;
-                            //    bars[i1, j1] = false;
-                            //    clintons[i1, j1] = false;
-                            //}
-                            //else
-                            //  if (button.BackgroundImage == null && Calculations.CoinsCount<Clinton>(clintons) < 12)
-                            //{
-                            //    button.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.clinton));
-                            //    button.Tag = "clinton";
-                            //    bars[i1, j1] = true;
-                            //    clintons[i1, j1] = true;
-                            //}
-
-
-
-
-                            //if ((string)button.Tag == "trump")
-                            //{
-                            //    button.BackgroundImage = null;
-                            //    button.Tag = string.Empty;
-                            //    bars[i1, j1] = false;
-                            //    trumps[i1, j1] = false;
-                            //}
-                            //else
-                            //  if (button.BackgroundImage == null && Calculations.CoinsCount<Trump>(trumps) < 12)
-                            //{
-                            //    button.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.trump1));
-                            //    button.Tag = "trump";
-                            //    trumps[i1, j1] = true;
-                            //    clintons[i1, j1] = true;
-                            //}
-
-
-
-
                         };
                     buttons[i, j] = button;
                     this.Controls.Add(button);
