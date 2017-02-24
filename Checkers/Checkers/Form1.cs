@@ -13,77 +13,13 @@ namespace Checkers
         }
         void RemoveButtons(Button[,] buttons)
         {
-            this.Controls.Remove(buttons[0, 0]);
-            this.Controls.Remove(buttons[0, 1]);
-            this.Controls.Remove(buttons[0, 2]);
-            this.Controls.Remove(buttons[0, 3]);
-            this.Controls.Remove(buttons[0, 4]);
-            this.Controls.Remove(buttons[0, 5]);
-            this.Controls.Remove(buttons[0, 6]);
-            this.Controls.Remove(buttons[0, 7]);
-
-            this.Controls.Remove(buttons[1, 0]);
-            this.Controls.Remove(buttons[1, 1]);
-            this.Controls.Remove(buttons[1, 2]);
-            this.Controls.Remove(buttons[1, 3]);
-            this.Controls.Remove(buttons[1, 4]);
-            this.Controls.Remove(buttons[1, 5]);
-            this.Controls.Remove(buttons[1, 6]);
-            this.Controls.Remove(buttons[1, 7]);
-
-            this.Controls.Remove(buttons[2, 0]);
-            this.Controls.Remove(buttons[2, 1]);
-            this.Controls.Remove(buttons[2, 2]);
-            this.Controls.Remove(buttons[2, 3]);
-            this.Controls.Remove(buttons[2, 4]);
-            this.Controls.Remove(buttons[2, 5]);
-            this.Controls.Remove(buttons[2, 6]);
-            this.Controls.Remove(buttons[2, 7]);
-
-            this.Controls.Remove(buttons[3, 0]);
-            this.Controls.Remove(buttons[3, 1]);
-            this.Controls.Remove(buttons[3, 2]);
-            this.Controls.Remove(buttons[3, 3]);
-            this.Controls.Remove(buttons[3, 4]);
-            this.Controls.Remove(buttons[3, 5]);
-            this.Controls.Remove(buttons[3, 6]);
-            this.Controls.Remove(buttons[3, 7]);
-
-            this.Controls.Remove(buttons[4, 0]);
-            this.Controls.Remove(buttons[4, 1]);
-            this.Controls.Remove(buttons[4, 2]);
-            this.Controls.Remove(buttons[4, 3]);
-            this.Controls.Remove(buttons[4, 4]);
-            this.Controls.Remove(buttons[4, 5]);
-            this.Controls.Remove(buttons[4, 6]);
-            this.Controls.Remove(buttons[4, 7]);
-
-            this.Controls.Remove(buttons[5, 0]);
-            this.Controls.Remove(buttons[5, 1]);
-            this.Controls.Remove(buttons[5, 2]);
-            this.Controls.Remove(buttons[5, 3]);
-            this.Controls.Remove(buttons[5, 4]);
-            this.Controls.Remove(buttons[5, 5]);
-            this.Controls.Remove(buttons[5, 6]);
-            this.Controls.Remove(buttons[5, 7]);
-
-            this.Controls.Remove(buttons[6, 0]);
-            this.Controls.Remove(buttons[6, 1]);
-            this.Controls.Remove(buttons[6, 2]);
-            this.Controls.Remove(buttons[6, 3]);
-            this.Controls.Remove(buttons[6, 4]);
-            this.Controls.Remove(buttons[6, 5]);
-            this.Controls.Remove(buttons[6, 6]);
-            this.Controls.Remove(buttons[6, 7]);
-
-            this.Controls.Remove(buttons[7, 0]);
-            this.Controls.Remove(buttons[7, 1]);
-            this.Controls.Remove(buttons[7, 2]);
-            this.Controls.Remove(buttons[7, 3]);
-            this.Controls.Remove(buttons[7, 4]);
-            this.Controls.Remove(buttons[7, 5]);
-            this.Controls.Remove(buttons[7, 6]);
-            this.Controls.Remove(buttons[7, 7]);
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    this.Controls.Remove(buttons[i, j]);
+                }
+            }
         }
 
         private void button1_Click(object sender, System.EventArgs e)
