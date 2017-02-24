@@ -9,7 +9,7 @@ namespace Checkers
         public Form1()
         {
             InitializeComponent();
-            
+            StartPosition = FormStartPosition.CenterScreen;
         }
         void RemoveButtons(Button[,] buttons)
         {
