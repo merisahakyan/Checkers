@@ -25,7 +25,7 @@ namespace Checkers
             Trump trumps = new Trump();
 
             int previ = 0, prevj = 0;
-            int i1, j1;
+            int curi, curj;
             ClientSize = new Size(550, 400);
 
             for (int i = 0; i < 8; i++)
@@ -60,52 +60,111 @@ namespace Checkers
                     }
                     if ((i + j) % 2 == 1)
                         button.Click += (s, ea) =>
-                        {
-                            i1 = button.Location.X / 50;
-                            j1 = button.Location.Y / 50;
-
-                            switch ((string)button.Tag)
+                        {  if (Calculations.CoinsCount<Trump>(trumps) == 0)
                             {
-                                case "trump": cur = 't'; break;
-                                case "clinton": cur = 'c'; break;
-                                default: cur = 'n'; break;
+                                MessageBox.Show("Congratulations,the winner is Clinton!");
+                                
+                                button1_Click(s, e);
                             }
-
-                            if (((prev == 'n' || prev == 't') && cur == 't') || (prev == 'c' && cur == 't') || (prev == 't' && cur == 'c') || ((prev == 'n' || prev == 'c') && cur == 'c'))
+                            else
+                        if (Calculations.CoinsCount<Clinton>(clintons) == 0)
                             {
-                                previ = button.Location.X / 50;
-                                prevj = button.Location.Y / 50;
-
+                                MessageBox.Show("Congratulations,the winner is Trump!");
+                                button1_Click(s, e);
                             }
-
-                            if (prev == 't' && cur == 'n')
+                            else
                             {
-                                buttons[previ, prevj].BackgroundImage = null;
-                                buttons[previ, prevj].Tag = string.Empty;
-                                bars[previ, prevj] = false;
-                                bars[i1, j1] = true;
-                                button.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.trump1));
-                                button.Tag = "trump";
-                                trumps[previ, prevj] = false;
-                                trumps[i1, j1] = true;
+                                curi = button.Location.X / 50;
+                                curj = button.Location.Y / 50;
 
+                                switch ((string)button.Tag)
+                                {
+                                    case "trump": cur = 't'; break;
+                                    case "clinton": cur = 'c'; break;
+                                    default: cur = 'n'; break;
+                                }
+
+                                if (((prev == 'n' || prev == 't') && cur == 't') || (prev == 'c' && cur == 't') || (prev == 't' && cur == 'c') || ((prev == 'n' || prev == 'c') && cur == 'c'))
+                                {
+                                    previ = button.Location.X / 50;
+                                    prevj = button.Location.Y / 50;
+
+                                }
+
+                                if (prev == 't' && cur == 'n' && (curi == previ - 1 || curi == previ + 1) && (curj == prevj - 1))
+                                {
+                                    buttons[previ, prevj].BackgroundImage = null;
+                                    buttons[previ, prevj].Tag = string.Empty;
+                                    bars[previ, prevj] = false;
+                                    bars[curi, curj] = true;
+                                    button.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.trump1));
+                                    button.Tag = "trump";
+                                    trumps[previ, prevj] = false;
+                                    trumps[curi, curj] = true;
+                                }
+
+
+                                if (prev == 't' && cur == 'n' &&
+                                ((curi == previ - 2 && curj == prevj + 2 && clintons[previ - 1, prevj + 1] == true)
+                                || (curi == previ - 2 && curj == prevj - 2 && clintons[previ - 1, prevj - 1] == true)
+                                || (curi == previ + 2 && curj == prevj + 2 && clintons[previ + 1, prevj + 1] == true)
+                                || (curi == previ + 2 && curj == prevj - 2 && clintons[previ + 1, prevj - 1] == true))
+                                )
+                                {
+                                    buttons[previ, prevj].BackgroundImage = null;
+                                    buttons[previ, prevj].Tag = string.Empty;
+                                    bars[previ, prevj] = false;
+                                    bars[curi, curj] = true;
+                                    button.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.trump1));
+                                    button.Tag = "trump";
+                                    trumps[previ, prevj] = false;
+                                    trumps[curi, curj] = true;
+
+                                    clintons[(previ + curi) / 2, (prevj + curj) / 2] = false;
+                                    bars[(previ + curi) / 2, (prevj + curj) / 2] = false;
+                                    buttons[(previ + curi) / 2, (prevj + curj) / 2].Tag = string.Empty;
+                                    buttons[(previ + curi) / 2, (prevj + curj) / 2].BackgroundImage = null;
+                                }
+
+
+
+                                if (prev == 'c' && cur == 'n' && (curi == previ - 1 || curi == previ + 1) && (curj == prevj + 1))
+                                {
+                                    buttons[previ, prevj].BackgroundImage = null;
+                                    buttons[previ, prevj].Tag = string.Empty;
+                                    bars[previ, prevj] = false;
+                                    bars[curi, curj] = true;
+                                    clintons[previ, prevj] = false;
+                                    clintons[curi, curj] = true;
+                                    button.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.clinton));
+                                    button.Tag = "clinton";
+
+                                    clintons[curi, curj] = true;
+
+                                }
+                                if (prev == 'c' && cur == 'n' &&
+                                ((curi == previ - 2 && curj == prevj + 2 && trumps[previ - 1, prevj + 1] == true)
+                                || (curi == previ - 2 && curj == prevj - 2 && trumps[previ - 1, prevj - 1] == true)
+                                || (curi == previ + 2 && curj == prevj + 2 && trumps[previ + 1, prevj + 1] == true)
+                                || (curi == previ + 2 && curj == prevj - 2 && trumps[previ + 1, prevj - 1] == true)))
+                                {
+                                    buttons[previ, prevj].BackgroundImage = null;
+                                    buttons[previ, prevj].Tag = string.Empty;
+                                    bars[previ, prevj] = false;
+                                    bars[curi, curj] = true;
+                                    clintons[previ, prevj] = false;
+                                    clintons[curi, curj] = true;
+                                    button.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.clinton));
+                                    button.Tag = "clinton";
+
+                                    trumps[(previ + curi) / 2, (prevj + curj) / 2] = false;
+                                    bars[(previ + curi) / 2, (prevj + curj) / 2] = false;
+                                    buttons[(previ + curi) / 2, (prevj + curj) / 2].Tag = string.Empty;
+                                    buttons[(previ + curi) / 2, (prevj + curj) / 2].BackgroundImage = null;
+
+                                }
+                                prev = cur;
                             }
-
-                            if (prev == 'c' && cur == 'n')
-                            {
-                                buttons[previ, prevj].BackgroundImage = null;
-                                buttons[previ, prevj].Tag = string.Empty;
-                                bars[previ, prevj] = false;
-                                bars[i1, j1] = true;
-                                clintons[previ, prevj] = false;
-                                clintons[i1, j1] = true;
-                                button.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.clinton));
-                                button.Tag = "clinton";
-
-                                clintons[i1, j1] = true;
-
-                            }
-                            prev = cur;
                         };
                     buttons[i, j] = button;
                     this.Controls.Add(button);
