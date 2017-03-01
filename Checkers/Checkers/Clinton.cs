@@ -26,105 +26,24 @@ namespace Checkers
                 bar[i, j] = value;
             }
         }
-        public bool BackLeft(int i, int j, object obj)
+        public bool Eating<T>(char prev, char cur, int curi, int curj, int previ, int prevj, T obj) where T : ICoin
         {
-            Trump trump = obj as Trump;
-            if (j > 0 && i > 0)
-            {
-                if (trump[i - 1, j - 1] == false)
-                    return true;
-                else
-                    return false;
-            }
-            return false;
+            if (prev == 'c' && cur == 'n' &&
+                            ((curi == previ - 2 && curj == prevj + 2 && obj[previ - 1, prevj + 1] == true)
+                            || (curi == previ - 2 && curj == prevj - 2 && obj[previ - 1, prevj - 1] == true)
+                            || (curi == previ + 2 && curj == prevj + 2 && obj[previ + 1, prevj + 1] == true)
+                            || (curi == previ + 2 && curj == prevj - 2 && obj[previ + 1, prevj - 1] == true)))
+                return true;
+            else return false;
         }
 
-        public bool BackLeft1(int i, int j, object obj)
+        public bool Step(char turn, int prev, int cur, int curi, int curj, int previ, int prevj)
         {
-            Trump trump = obj as Trump;
-            if (j > 1 && i > 1)
-            {
-                if (trump[i - 2, j - 2] == false)
-                    return true;
-                else return false;
-            }
-            return false;
+            if (turn == 'c' && prev == 'c' && cur == 'n' && (curi == previ - 1 || curi == previ + 1) && (curj == prevj + 1))
+                return
+                    true;
+            else
+                return false;
         }
-
-        public bool BackRight(int i, int j, object obj)
-        {
-            Trump trump = obj as Trump;
-            if (j > 0 && i < 7)
-            {
-                if (trump[i + 1, j - 1] == false)
-                    return true;
-                else
-                    return false;
-            }
-            return false;
-        }
-
-        public bool BackRight1(int i, int j, object obj)
-        {
-            Trump trump = obj as Trump;
-            if (j > 1 && i < 6)
-            {
-                if (trump[i - 2, j + 2] == false)
-                    return true;
-                else return false;
-            }
-            return false;
-        }
-
-        public bool Left(int i, int j, object obj)
-        {
-            Trump trump = obj as Trump;
-            if (j < 7 && i > 0)
-            {
-                if (trump[i - 1, j + 1] == false)
-                    return true;
-                else
-                    return false;
-            }
-            return false;
-        }
-
-        public bool Left1(int i, int j, object obj)
-        {
-            Trump trump = obj as Trump;
-            if (j < 6 && i > 1)
-            {
-                if (trump[i - 2, j + 2] == false)
-                    return true;
-                else return false;
-            }
-            return false;
-        }
-
-        public bool Right(int i, int j, object obj)
-        {
-            Trump trump = obj as Trump;
-            if (j < 7 && i < 7)
-            {
-                if (trump[i + 1, j + 1] == false)
-                    return true;
-                else
-                    return false;
-            }
-            return false;
-        }
-
-        public bool Right1(int i, int j, object obj)
-        {
-            Trump trump = obj as Trump;
-            if (j < 6 && i <6)
-            {
-                if (trump[i + 2, j + 2] == false)
-                    return true;
-                else return false;
-            }
-            return false;
-        }
-        
     }
 }

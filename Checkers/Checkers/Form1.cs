@@ -24,6 +24,8 @@ namespace Checkers
 
         private void button1_Click(object sender, System.EventArgs e)
         {
+
+            char turn = 'c';
             button1.Hide();
             Button[,] buttons = new Button[8, 8];
             bool[,] bars = new bool[8, 8];
@@ -93,8 +95,11 @@ namespace Checkers
 
                             }
 
-                            if (prev == 't' && cur == 'n' && (curi == previ - 1 || curi == previ + 1) && (curj == prevj - 1))
+
+                            //Trump's step
+                            if (trumps.Step(turn,prev,cur,curi,curj,previ,prevj))
                             {
+                                turn = 'c';
                                 buttons[previ, prevj].BackgroundImage = null;
                                 buttons[previ, prevj].Tag = string.Empty;
                                 bars[previ, prevj] = false;
@@ -105,14 +110,10 @@ namespace Checkers
                                 trumps[curi, curj] = true;
                             }
 
-
-                            if (prev == 't' && cur == 'n' &&
-                            ((curi == previ - 2 && curj == prevj + 2 && clintons[previ - 1, prevj + 1] == true)
-                            || (curi == previ - 2 && curj == prevj - 2 && clintons[previ - 1, prevj - 1] == true)
-                            || (curi == previ + 2 && curj == prevj + 2 && clintons[previ + 1, prevj + 1] == true)
-                            || (curi == previ + 2 && curj == prevj - 2 && clintons[previ + 1, prevj - 1] == true))
-                            )
+                            //Trump's eat
+                            if (trumps.Eating<Clinton>(prev,cur,curi,curj,previ,prevj,clintons))
                             {
+                                turn = 'c';
                                 buttons[previ, prevj].BackgroundImage = null;
                                 buttons[previ, prevj].Tag = string.Empty;
                                 bars[previ, prevj] = false;
@@ -129,9 +130,10 @@ namespace Checkers
                             }
 
 
-
-                            if (prev == 'c' && cur == 'n' && (curi == previ - 1 || curi == previ + 1) && (curj == prevj + 1))
+                            //Clinton's step
+                            if (clintons.Step(turn,prev,cur,curi,curj,previ,prevj))
                             {
+                                turn = 't';
                                 buttons[previ, prevj].BackgroundImage = null;
                                 buttons[previ, prevj].Tag = string.Empty;
                                 bars[previ, prevj] = false;
@@ -144,12 +146,11 @@ namespace Checkers
                                 clintons[curi, curj] = true;
 
                             }
-                            if (prev == 'c' && cur == 'n' &&
-                            ((curi == previ - 2 && curj == prevj + 2 && trumps[previ - 1, prevj + 1] == true)
-                            || (curi == previ - 2 && curj == prevj - 2 && trumps[previ - 1, prevj - 1] == true)
-                            || (curi == previ + 2 && curj == prevj + 2 && trumps[previ + 1, prevj + 1] == true)
-                            || (curi == previ + 2 && curj == prevj - 2 && trumps[previ + 1, prevj - 1] == true)))
+
+                            //Clintons's eat
+                            if (clintons.Eating<Trump>(prev,cur,curi,curj,previ,prevj,trumps))
                             {
+                                turn = 't';
                                 buttons[previ, prevj].BackgroundImage = null;
                                 buttons[previ, prevj].Tag = string.Empty;
                                 bars[previ, prevj] = false;
@@ -165,6 +166,10 @@ namespace Checkers
                                 buttons[(previ + curi) / 2, (prevj + curj) / 2].BackgroundImage = null;
 
                             }
+
+
+
+
                             prev = cur;
                             if (Calculations.CoinsCount<Trump>(trumps) == 0)
                             {

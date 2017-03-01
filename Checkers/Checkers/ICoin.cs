@@ -9,13 +9,8 @@ namespace Checkers
     public interface ICoin
     {
         bool this[int i, int j] { get; set; }
-        bool Right(int i, int j, object obj);
-        bool Left(int i, int j, object obj);
-        bool BackRight(int i, int j, object obj);
-        bool BackLeft(int i, int j, object obj);
-        bool Right1(int i, int j, object obj);
-        bool Left1(int i, int j, object obj);
-        bool BackRight1(int i, int j, object obj);
-        bool BackLeft1(int i, int j, object obj);
+        bool Eating<T>(char prev,char cur,int curi,int curj,int previ,int prevj,T obj)where T:ICoin;
+        bool Step(char turn, int prev, int cur, int curi, int curj, int previ, int prevj);
+        
     }
 }

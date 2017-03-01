@@ -27,44 +27,25 @@ namespace Checkers
             }
         }
 
-        public bool BackLeft(int i, int j, object obj)
+        public bool Eating<T>(char prev, char cur, int curi, int curj, int previ, int prevj, T obj) where T : ICoin
         {
-            throw new NotImplementedException();
+            if (prev == 't' && cur == 'n' &&
+                            ((curi == previ - 2 && curj == prevj + 2 && obj[previ - 1, prevj + 1] == true)
+                            || (curi == previ - 2 && curj == prevj - 2 && obj[previ - 1, prevj - 1] == true)
+                            || (curi == previ + 2 && curj == prevj + 2 && obj[previ + 1, prevj + 1] == true)
+                            || (curi == previ + 2 && curj == prevj - 2 && obj[previ + 1, prevj - 1] == true)))
+                return true;
+            else
+                return false;
+
         }
 
-        public bool BackLeft1(int i, int j, object obj)
+        public bool Step(char turn, int prev, int cur, int curi, int curj, int previ, int prevj)
         {
-            throw new NotImplementedException();
-        }
-
-        public bool BackRight(int i, int j, object obj)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool BackRight1(int i, int j, object obj)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Left(int i, int j, object obj)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Left1(int i, int j, object obj)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Right(int i, int j, object obj)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Right1(int i, int j, object obj)
-        {
-            throw new NotImplementedException();
+            if (turn == 't' && prev == 't' && cur == 'n' && (curi == previ - 1 || curi == previ + 1) && (curj == prevj - 1))
+                return true;
+            else
+                return false;
         }
     }
 }
