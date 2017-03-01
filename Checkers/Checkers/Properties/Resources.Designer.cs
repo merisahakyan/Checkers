@@ -73,6 +73,26 @@ namespace Checkers.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap damaclinton {
+            get {
+                object obj = ResourceManager.GetObject("damaclinton", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap damatrump {
+            get {
+                object obj = ResourceManager.GetObject("damatrump", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap trump {
             get {
                 object obj = ResourceManager.GetObject("trump", resourceCulture);
