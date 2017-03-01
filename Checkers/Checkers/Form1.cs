@@ -28,10 +28,8 @@ namespace Checkers
             char turn = 'c';
             button1.Hide();
             Button[,] buttons = new Button[8, 8];
-            bool[,] bars = new bool[8, 8];
-            for (int i = 0; i < 8; i++)
-                for (int j = 0; j < 8; j++)
-                    bars[i, j] = false;
+            int[] point = new int[2];
+
 
             char prev = 'n', cur = 'n';
             Clinton clintons = new Clinton();
@@ -59,14 +57,14 @@ namespace Checkers
                             button.Tag = "clinton";
                             button.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.clinton));
                             clintons[i, j] = true;
-                            bars[i, j] = true;
+
                         }
                         else if (j > 4 && j < 8)
                         {
                             button.Tag = "trump";
                             button.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.trump1));
                             trumps[i, j] = true;
-                            bars[i, j] = true;
+
                         }
                         else
                         {
@@ -97,71 +95,87 @@ namespace Checkers
 
 
                             //Trump's step
-                            if (trumps.Step(turn,prev,cur,curi,curj,previ,prevj))
+                            if (trumps.Step(turn, prev, cur, curi, curj, previ, prevj))
                             {
-                                turn = 'c';
-                                buttons[previ, prevj].BackgroundImage = null;
-                                buttons[previ, prevj].Tag = string.Empty;
-                                bars[previ, prevj] = false;
-                                bars[curi, curj] = true;
-                                button.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.trump1));
-                                button.Tag = "trump";
-                                trumps[previ, prevj] = false;
-                                trumps[curi, curj] = true;
+                                point = trumps.Huff<Clinton>(clintons);
+                                if (point[0] == -1 && point[1] == -1)
+                                {
+                                    turn = 'c';
+                                    buttons[previ, prevj].BackgroundImage = null;
+                                    buttons[previ, prevj].Tag = string.Empty;
+                                    button.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.trump1));
+                                    button.Tag = "trump";
+                                    trumps[previ, prevj] = false;
+                                    trumps[curi, curj] = true;
+                                }
+                                else
+                                {
+                                    int x = point[0];
+                                    int y = point[1];
+                                    turn = 'c';
+                                    buttons[x, y].BackgroundImage = null;
+                                    buttons[x, y].Tag = string.Empty;
+                                    trumps[x, y] = false;
+                                }
                             }
 
                             //Trump's eat
-                            if (trumps.Eating<Clinton>(prev,cur,curi,curj,previ,prevj,clintons))
+                            if (trumps.Eating<Clinton>(prev, cur, curi, curj, previ, prevj, clintons))
                             {
                                 turn = 'c';
                                 buttons[previ, prevj].BackgroundImage = null;
                                 buttons[previ, prevj].Tag = string.Empty;
-                                bars[previ, prevj] = false;
-                                bars[curi, curj] = true;
                                 button.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.trump1));
                                 button.Tag = "trump";
                                 trumps[previ, prevj] = false;
                                 trumps[curi, curj] = true;
 
                                 clintons[(previ + curi) / 2, (prevj + curj) / 2] = false;
-                                bars[(previ + curi) / 2, (prevj + curj) / 2] = false;
                                 buttons[(previ + curi) / 2, (prevj + curj) / 2].Tag = string.Empty;
                                 buttons[(previ + curi) / 2, (prevj + curj) / 2].BackgroundImage = null;
                             }
 
 
                             //Clinton's step
-                            if (clintons.Step(turn,prev,cur,curi,curj,previ,prevj))
+                            if (clintons.Step(turn, prev, cur, curi, curj, previ, prevj))
                             {
-                                turn = 't';
-                                buttons[previ, prevj].BackgroundImage = null;
-                                buttons[previ, prevj].Tag = string.Empty;
-                                bars[previ, prevj] = false;
-                                bars[curi, curj] = true;
-                                clintons[previ, prevj] = false;
-                                clintons[curi, curj] = true;
-                                button.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.clinton));
-                                button.Tag = "clinton";
+                                point = clintons.Huff<Trump>(trumps);
+                                if (point[0] == -1 && point[1] == -1)
+                                {
+                                    turn = 't';
+                                    buttons[previ, prevj].BackgroundImage = null;
+                                    buttons[previ, prevj].Tag = string.Empty;
+                                    clintons[previ, prevj] = false;
+                                    clintons[curi, curj] = true;
+                                    button.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.clinton));
+                                    button.Tag = "clinton";
 
-                                clintons[curi, curj] = true;
+                                    clintons[curi, curj] = true;
+                                }
+                                else
+                                {
+                                    int x = point[0];
+                                    int y = point[1];
+                                    turn = 't';
+                                    buttons[x, y].BackgroundImage = null;
+                                    buttons[x, y].Tag = string.Empty;
+                                    clintons[x, y] = false;
+                                }
 
                             }
 
                             //Clintons's eat
-                            if (clintons.Eating<Trump>(prev,cur,curi,curj,previ,prevj,trumps))
+                            if (clintons.Eating<Trump>(prev, cur, curi, curj, previ, prevj, trumps))
                             {
                                 turn = 't';
                                 buttons[previ, prevj].BackgroundImage = null;
                                 buttons[previ, prevj].Tag = string.Empty;
-                                bars[previ, prevj] = false;
-                                bars[curi, curj] = true;
                                 clintons[previ, prevj] = false;
                                 clintons[curi, curj] = true;
                                 button.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.clinton));
                                 button.Tag = "clinton";
 
                                 trumps[(previ + curi) / 2, (prevj + curj) / 2] = false;
-                                bars[(previ + curi) / 2, (prevj + curj) / 2] = false;
                                 buttons[(previ + curi) / 2, (prevj + curj) / 2].Tag = string.Empty;
                                 buttons[(previ + curi) / 2, (prevj + curj) / 2].BackgroundImage = null;
 

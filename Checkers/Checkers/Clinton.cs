@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -45,5 +46,43 @@ namespace Checkers
             else
                 return false;
         }
+        public int[] Huff<T>(T trumps) where T : ICoin
+        {
+            int[] point = { -1, -1 };
+            for (int i = 0; i < 6; i++)
+                for (int j = 0; j < 6; j++)
+                    if (bar[i, j]  && trumps[i + 1, j + 1] && !bar[i + 2, j + 2] && !trumps[i + 2, j + 2])
+                    {
+                        point[0] = i;
+                        point[1] = j;
+                        return point;
+                    }
+            for (int i = 2; i < 8; i++)
+                for (int j = 2; j < 8; j++)
+                    if (bar[i, j] && trumps[i - 1, j - 1] && !bar[i - 2, j - 2] && !trumps[i - 2, j - 2])
+                    {
+                        point[0] = i;
+                        point[1] = j;
+                        return point;
+                    }
+            for (int i = 0; i < 6; i++)
+                for (int j = 2; j < 8; j++)
+                    if (bar[i, j] && trumps[i + 1, j - 1] && !bar[i + 2, j - 2] && !trumps[i + 2, j - 2])
+                    {
+                        point[0] = i;
+                        point[1] = j;
+                        return point;
+                    }
+            for (int i = 2; i < 8; i++)
+                for (int j = 0; j < 6; j++)
+                    if (bar[i, j] && trumps[i - 1, j + 1] && !bar[i - 2, j + 2] && !trumps[i - 2, j + 2])
+                    {
+                        point[0] = i;
+                        point[1] = j;
+                        return point;
+                    }
+            return point;
+        }
+        
     }
 }

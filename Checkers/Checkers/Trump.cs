@@ -40,6 +40,44 @@ namespace Checkers
 
         }
 
+        public int[] Huff<T>(T clintons) where T : ICoin
+        {
+            int[] point = { -1, -1 };
+            for (int i = 0; i < 6; i++)
+                for (int j = 0; j < 6; j++)
+                    if (bar[i, j] && clintons[i + 1, j + 1] && !bar[i + 2, j + 2] && !clintons[i + 2, j + 2])
+                    {
+                        point[0] = i;
+                        point[1] = j;
+                        return point;
+                    }
+            for (int i = 2; i < 8; i++)
+                for (int j = 2; j < 8; j++)
+                    if (bar[i, j] && clintons[i - 1, j - 1] && !bar[i - 2, j - 2] && !clintons[i - 2, j - 2])
+                    {
+                        point[0] = i;
+                        point[1] = j;
+                        return point;
+                    }
+            for (int i = 0; i < 6; i++)
+                for (int j = 2; j < 8; j++)
+                    if (bar[i, j] && clintons[i + 1, j - 1] && !bar[i + 2, j - 2] && !clintons[i + 2, j - 2])
+                    {
+                        point[0] = i;
+                        point[1] = j;
+                        return point;
+                    }
+            for (int i = 2; i < 8; i++)
+                for (int j = 0; j < 6; j++)
+                    if (bar[i, j] && clintons[i - 1, j + 1] && !bar[i - 2, j + 2] && !clintons[i - 2, j + 2])
+                    {
+                        point[0] = i;
+                        point[1] = j;
+                        return point;
+                    }
+            return point;
+        }
+
         public bool Step(char turn, int prev, int cur, int curi, int curj, int previ, int prevj)
         {
             if (turn == 't' && prev == 't' && cur == 'n' && (curi == previ - 1 || curi == previ + 1) && (curj == prevj - 1))
