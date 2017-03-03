@@ -10,6 +10,8 @@ namespace Checkers
     public class Clinton : ICoin
     {
         bool[,] bar = new bool[8, 8];
+
+        int mini, minj, maxi, maxj;
         public Clinton()
         {
             for (int i = 0; i < 8; i++)
@@ -51,7 +53,7 @@ namespace Checkers
             int[] point = { -1, -1 };
             for (int i = 0; i < 6; i++)
                 for (int j = 0; j < 6; j++)
-                    if (bar[i, j]  && trumps[i + 1, j + 1] && !bar[i + 2, j + 2] && !trumps[i + 2, j + 2])
+                    if (bar[i, j] && trumps[i + 1, j + 1] && !bar[i + 2, j + 2] && !trumps[i + 2, j + 2])
                     {
                         point[0] = i;
                         point[1] = j;
@@ -83,6 +85,46 @@ namespace Checkers
                     }
             return point;
         }
-        
+        public bool Clean<T>(T ob, int curi, int curj, int previ, int prevj) where T : ICoin
+        {
+            bool isclean = true;
+            if (curi < previ && curj < prevj)
+            {
+                prevj = curj;
+                mini = curi;
+                maxi = previ;
+            }
+            else if (curi > previ && curj > prevj)
+            {
+                mini = previ;
+                maxi = curi;
+            }
+            else if (curi > previ && curj < prevj)
+            {
+                mini = previ;
+                maxi = curi;
+                prevj = curj;
+            }
+            else if (curi < previ && curj > prevj)
+            {
+                mini = curi;
+                maxi = previ;
+            }
+
+
+            for (int i = mini + 1; i < maxi; i++)
+            {
+                if (ob[i, prevj + 1] || bar[i, prevj + 1])
+                {
+                    isclean = false;
+                    break;
+                }
+                prevj++;
+            }
+            return isclean;
+
+        }
+
+
     }
 }

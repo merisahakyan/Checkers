@@ -9,7 +9,9 @@ namespace Checkers
         public Checkers()
         {
             InitializeComponent();
-            StartPosition = FormStartPosition.CenterScreen;
+            startCombo.Items.Add("Hillary Clinton");
+            startCombo.Items.Add("Donald Trump");
+            startCombo.Text = "Hillary Clinton";
         }
         void RemoveButtons(Button[,] buttons)
         {
@@ -24,20 +26,28 @@ namespace Checkers
 
         private void button1_Click(object sender, System.EventArgs e)
         {
+            ClientSize = new Size(550, 400);
+            char turn;
+            if (startCombo.SelectedIndex == 1)
+                turn = 't';
+            else
+                turn = 'c';
 
-            char turn = 'c';
             button1.Hide();
+            startCombo.Hide();
+            choosestart.Hide();
             Button[,] buttons = new Button[8, 8];
             int[] point = new int[2];
 
 
             char prev = 'n', cur = 'n';
+
             Clinton clintons = new Clinton();
             Trump trumps = new Trump();
 
             int previ = 0, prevj = 0;
             int curi, curj;
-            ClientSize = new Size(550, 400);
+
 
             for (int i = 0; i < 8; i++)
             {
@@ -137,7 +147,9 @@ namespace Checkers
 
 
                             //Clinton's step
-                            if (clintons.Step(turn, prev, cur, curi, curj, previ, prevj))
+                            if (clintons.Step(turn, prev, cur, curi, curj, previ, prevj)
+                            || (turn == 'c' && prev == 'c' && cur == 'n' 
+                            && clintons.Clean<Trump>(trumps, curi, curj, previ, prevj)))
                             {
                                 point = clintons.Huff<Trump>(trumps);
                                 if (point[0] == -1 && point[1] == -1)
@@ -148,7 +160,9 @@ namespace Checkers
                                     clintons[previ, prevj] = false;
                                     clintons[curi, curj] = true;
                                     button.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.clinton));
+
                                     button.Tag = "clinton";
+                                    
 
                                     clintons[curi, curj] = true;
                                 }
@@ -180,6 +194,8 @@ namespace Checkers
                                 buttons[(previ + curi) / 2, (prevj + curj) / 2].BackgroundImage = null;
 
                             }
+                            //Clinton Dama
+
 
 
 
@@ -204,5 +220,7 @@ namespace Checkers
                 }
             }
         }
+
+
     }
 }
