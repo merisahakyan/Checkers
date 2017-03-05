@@ -11,7 +11,7 @@ namespace Checkers
     {
         bool this[int i, int j] { get; set; }
         bool Eating<T>(char cur,int curi,int curj,int previ,int prevj,T player)where T:ICoin;
-        bool Step(char turn,char prev,int cur, int curi, int curj, int previ, int prevj);
+        
         int[] Huff<T>(T player) where T : ICoin;
         
         

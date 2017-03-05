@@ -7,16 +7,23 @@ using System.Threading.Tasks;
 
 namespace Checkers
 {
-    public class Player : ICoin
+    public class Player : ICoin,IDama
     {
         bool[,] bar = new bool[8, 8];
+       public  byte[,] isdama = new byte[8, 8];
 
         int mini, maxi;
+
+        
+
         public Player()
         {
             for (int i = 0; i < 8; i++)
                 for (int j = 0; j < 8; j++)
                     bar[i, j] = false;
+            for (int i = 0; i < 8; i++)
+                for (int j = 0; j < 8; j++)
+                    isdama[i, j] = 0;
         }
         public bool this[int i, int j]
         {
@@ -113,7 +120,7 @@ namespace Checkers
             }
 
 
-            for (int i = mini + 1; i < maxi; i++)
+            for (int i = mini + 1; i <= maxi; i++)
             {
                 if (player[i, prevj + 1] || bar[i, prevj + 1])
                 {

@@ -35,7 +35,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(12, 66);
+            this.button1.Location = new System.Drawing.Point(295, 161);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 0;
@@ -46,7 +46,8 @@
             // choosestart
             // 
             this.choosestart.AutoSize = true;
-            this.choosestart.Location = new System.Drawing.Point(12, 24);
+            this.choosestart.BackColor = System.Drawing.SystemColors.Window;
+            this.choosestart.Location = new System.Drawing.Point(292, 118);
             this.choosestart.Name = "choosestart";
             this.choosestart.Size = new System.Drawing.Size(85, 13);
             this.choosestart.TabIndex = 1;
@@ -54,7 +55,7 @@
             // 
             // startCombo
             // 
-            this.startCombo.Location = new System.Drawing.Point(12, 40);
+            this.startCombo.Location = new System.Drawing.Point(295, 134);
             this.startCombo.Name = "startCombo";
             this.startCombo.Size = new System.Drawing.Size(121, 21);
             this.startCombo.TabIndex = 0;
@@ -63,7 +64,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(534, 361);
+            this.BackgroundImage = global::Checkers.Properties.Resources.startcover;
+            this.ClientSize = new System.Drawing.Size(802, 361);
             this.Controls.Add(this.startCombo);
             this.Controls.Add(this.choosestart);
             this.Controls.Add(this.button1);

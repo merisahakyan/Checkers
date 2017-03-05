@@ -9,6 +9,8 @@ namespace Checkers
         public Checkers()
         {
             InitializeComponent();
+            ClientSize = new Size(800, 400);
+            BackgroundImage = ((System.Drawing.Image)(Properties.Resources.startcover));
             startCombo.Items.Add("Hillary Clinton");
             startCombo.Items.Add("Donald Trump");
             startCombo.Text = "Hillary Clinton";
@@ -26,7 +28,8 @@ namespace Checkers
 
         private void button1_Click(object sender, System.EventArgs e)
         {
-            ClientSize = new Size(550, 400);
+            BackgroundImage = ((System.Drawing.Image)(Properties.Resources.gamecover1));
+            //ClientSize = new Size(800, 400);
             char turn;
             if (startCombo.SelectedIndex == 1)
                 turn = 't';
@@ -56,7 +59,7 @@ namespace Checkers
                     Button button = new Button();
                     button.Height = 50;
                     button.Width = 50;
-                    button.Location = new Point(50 * i, 50 * j);
+                    button.Location = new Point(200 + 50 * i, 50 * j);
                     if ((i + j) % 2 == 1)
                     {
                         button.BackColor = Color.Black;
@@ -86,7 +89,7 @@ namespace Checkers
                     if ((i + j) % 2 == 1)
                         button.Click += (s, ea) =>
                         {
-                            curi = button.Location.X / 50;
+                            curi = (button.Location.X - 200) / 50;
                             curj = button.Location.Y / 50;
 
                             switch ((string)button.Tag)
@@ -98,14 +101,14 @@ namespace Checkers
 
                             if (((prev == 'n' || prev == 't') && cur == 't') || (prev == 'c' && cur == 't') || (prev == 't' && cur == 'c') || ((prev == 'n' || prev == 'c') && cur == 'c'))
                             {
-                                previ = button.Location.X / 50;
-                                prevj = button.Location.Y / 50;
+                                previ = (button.Location.X - 200) / 50;
+                                prevj = (button.Location.Y) / 50;
 
                             }
 
 
                             //Trump's step
-                            if (turn=='t'&&trumps.Step(turn,prev,cur, curi, curj, previ, prevj))
+                            if (turn == 't' && trumps.Step(turn, prev, cur, curi, curj, previ, prevj))
                             {
                                 point = trumps.Huff<Player>(clintons);
                                 if (point[0] == -1 && point[1] == -1)
@@ -147,7 +150,7 @@ namespace Checkers
 
 
                             //Clinton's step
-                            if (turn=='c'&&clintons.Step(turn,prev,cur, curi, curj, previ, prevj))
+                            if (turn == 'c' && clintons.Step(turn, prev, cur, curi, curj, previ, prevj))
                             {
                                 point = clintons.Huff<Player>(trumps);
                                 if (point[0] == -1 && point[1] == -1)
@@ -163,6 +166,7 @@ namespace Checkers
 
 
                                     clintons[curi, curj] = true;
+
                                 }
                                 else
                                 {
@@ -194,23 +198,53 @@ namespace Checkers
                             }
                             //Clinton Dama
 
+                            //(clintons as IDama)[i, j]
+                            //if (turn == 'c' && clintons.Clean<Player>(trumps, curi, curj, previ, prevj) && clintons.isdama[previ, prevj] == 1)
+                            //{
+                            //    point = clintons.Huff<Player>(trumps);
+                            //    if (point[0] == -1 && point[1] == -1)
+                            //    {
+                            //        turn = 't';
+                            //        buttons[previ, prevj].BackgroundImage = null;
+                            //        buttons[previ, prevj].Tag = string.Empty;
+                            //        clintons[previ, prevj] = false;
+                            //        clintons[curi, curj] = true;
+                            //        button.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.damaclinton));
+
+                            //        button.Tag = "clinton";
 
 
+                            //        clintons[curi, curj] = true;
+                            //    }
+                            //    else
+                            //    {
+                            //        int x = point[0];
+                            //        int y = point[1];
+                            //        turn = 't';
+                            //        buttons[x, y].BackgroundImage = null;
+                            //        buttons[x, y].Tag = string.Empty;
+                            //        clintons[x, y] = false;
+                            //    }
+                            //}
 
 
                             prev = cur;
                             if (Calculations.CoinsCount<Player>(trumps) == 0)
                             {
                                 RemoveButtons(buttons);
-                                button1.Location = new Point(420, 100);
                                 button1.Show();
+                                choosestart.Show();
+                                startCombo.Show();
+                                MessageBox.Show("Congratulations! The winner is Hillary Clinton.");
                             }
                             else
                             if (Calculations.CoinsCount<Player>(clintons) == 0)
                             {
                                 RemoveButtons(buttons);
-                                button1.Location = new Point(420, 100);
                                 button1.Show();
+                                choosestart.Show();
+                                startCombo.Show();
+                                MessageBox.Show("Congratulations! The winner is Donald Trump.");
                             }
                         };
                     buttons[i, j] = button;
