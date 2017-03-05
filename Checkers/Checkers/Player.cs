@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace Checkers
 {
-    public class Clinton : ICoin
+    public class Player : ICoin
     {
         bool[,] bar = new bool[8, 8];
 
-        int mini, minj, maxi, maxj;
-        public Clinton()
+        int mini, maxi;
+        public Player()
         {
             for (int i = 0; i < 8; i++)
                 for (int j = 0; j < 8; j++)
@@ -29,31 +29,32 @@ namespace Checkers
                 bar[i, j] = value;
             }
         }
-        public bool Eating<T>(char prev, char cur, int curi, int curj, int previ, int prevj, T obj) where T : ICoin
+        public bool Eating<T>(char cur, int curi, int curj, int previ, int prevj, T player) where T : ICoin
         {
-            if (prev == 'c' && cur == 'n' &&
-                            ((curi == previ - 2 && curj == prevj + 2 && obj[previ - 1, prevj + 1] == true)
-                            || (curi == previ - 2 && curj == prevj - 2 && obj[previ - 1, prevj - 1] == true)
-                            || (curi == previ + 2 && curj == prevj + 2 && obj[previ + 1, prevj + 1] == true)
-                            || (curi == previ + 2 && curj == prevj - 2 && obj[previ + 1, prevj - 1] == true)))
+            if (cur == 'n' &&
+                            ((curi == previ - 2 && curj == prevj + 2 && player[previ - 1, prevj + 1] == true)
+                            || (curi == previ - 2 && curj == prevj - 2 && player[previ - 1, prevj - 1] == true)
+                            || (curi == previ + 2 && curj == prevj + 2 && player[previ + 1, prevj + 1] == true)
+                            || (curi == previ + 2 && curj == prevj - 2 && player[previ + 1, prevj - 1] == true)))
                 return true;
             else return false;
         }
 
-        public bool Step(char turn, int prev, int cur, int curi, int curj, int previ, int prevj)
+        public bool Step(char turn,char prev,  int cur, int curi, int curj, int previ, int prevj)
         {
-            if (turn == 'c' && prev == 'c' && cur == 'n' && (curi == previ - 1 || curi == previ + 1) && (curj == prevj + 1))
+            if (turn=='c'&&prev=='c'&& cur == 'n' && (curi == previ - 1 || curi == previ + 1) && (curj == prevj + 1)
+                ||(turn == 't' && prev == 't' && cur == 'n' && (curi == previ - 1 || curi == previ + 1) && (curj == prevj - 1)))
                 return
                     true;
             else
                 return false;
         }
-        public int[] Huff<T>(T trumps) where T : ICoin
+        public int[] Huff<T>(T player) where T : ICoin
         {
             int[] point = { -1, -1 };
             for (int i = 0; i < 6; i++)
                 for (int j = 0; j < 6; j++)
-                    if (bar[i, j] && trumps[i + 1, j + 1] && !bar[i + 2, j + 2] && !trumps[i + 2, j + 2])
+                    if (bar[i, j] && player[i + 1, j + 1] && !bar[i + 2, j + 2] && !player[i + 2, j + 2])
                     {
                         point[0] = i;
                         point[1] = j;
@@ -61,7 +62,7 @@ namespace Checkers
                     }
             for (int i = 2; i < 8; i++)
                 for (int j = 2; j < 8; j++)
-                    if (bar[i, j] && trumps[i - 1, j - 1] && !bar[i - 2, j - 2] && !trumps[i - 2, j - 2])
+                    if (bar[i, j] && player[i - 1, j - 1] && !bar[i - 2, j - 2] && !player[i - 2, j - 2])
                     {
                         point[0] = i;
                         point[1] = j;
@@ -69,7 +70,7 @@ namespace Checkers
                     }
             for (int i = 0; i < 6; i++)
                 for (int j = 2; j < 8; j++)
-                    if (bar[i, j] && trumps[i + 1, j - 1] && !bar[i + 2, j - 2] && !trumps[i + 2, j - 2])
+                    if (bar[i, j] && player[i + 1, j - 1] && !bar[i + 2, j - 2] && !player[i + 2, j - 2])
                     {
                         point[0] = i;
                         point[1] = j;
@@ -77,7 +78,7 @@ namespace Checkers
                     }
             for (int i = 2; i < 8; i++)
                 for (int j = 0; j < 6; j++)
-                    if (bar[i, j] && trumps[i - 1, j + 1] && !bar[i - 2, j + 2] && !trumps[i - 2, j + 2])
+                    if (bar[i, j] && player[i - 1, j + 1] && !bar[i - 2, j + 2] && !player[i - 2, j + 2])
                     {
                         point[0] = i;
                         point[1] = j;
@@ -85,7 +86,7 @@ namespace Checkers
                     }
             return point;
         }
-        public bool Clean<T>(T ob, int curi, int curj, int previ, int prevj) where T : ICoin
+        public bool Clean<T>(T player, int curi, int curj, int previ, int prevj) where T : ICoin
         {
             bool isclean = true;
             if (curi < previ && curj < prevj)
@@ -114,7 +115,7 @@ namespace Checkers
 
             for (int i = mini + 1; i < maxi; i++)
             {
-                if (ob[i, prevj + 1] || bar[i, prevj + 1])
+                if (player[i, prevj + 1] || bar[i, prevj + 1])
                 {
                     isclean = false;
                     break;

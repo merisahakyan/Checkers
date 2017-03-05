@@ -42,9 +42,9 @@ namespace Checkers
 
             char prev = 'n', cur = 'n';
 
-            Clinton clintons = new Clinton();
-            Trump trumps = new Trump();
-
+            Player clintons = new Player();
+            // Trump trumps = new Trump();
+            Player trumps = new Player();
             int previ = 0, prevj = 0;
             int curi, curj;
 
@@ -105,9 +105,9 @@ namespace Checkers
 
 
                             //Trump's step
-                            if (trumps.Step(turn, prev, cur, curi, curj, previ, prevj))
+                            if (turn=='t'&&trumps.Step(turn,prev,cur, curi, curj, previ, prevj))
                             {
-                                point = trumps.Huff<Clinton>(clintons);
+                                point = trumps.Huff<Player>(clintons);
                                 if (point[0] == -1 && point[1] == -1)
                                 {
                                     turn = 'c';
@@ -130,7 +130,7 @@ namespace Checkers
                             }
 
                             //Trump's eat
-                            if (trumps.Eating<Clinton>(prev, cur, curi, curj, previ, prevj, clintons))
+                            if (prev == 't' && trumps.Eating<Player>(cur, curi, curj, previ, prevj, clintons))
                             {
                                 turn = 'c';
                                 buttons[previ, prevj].BackgroundImage = null;
@@ -147,11 +147,9 @@ namespace Checkers
 
 
                             //Clinton's step
-                            if (clintons.Step(turn, prev, cur, curi, curj, previ, prevj)
-                            || (turn == 'c' && prev == 'c' && cur == 'n' 
-                            && clintons.Clean<Trump>(trumps, curi, curj, previ, prevj)))
+                            if (turn=='c'&&clintons.Step(turn,prev,cur, curi, curj, previ, prevj))
                             {
-                                point = clintons.Huff<Trump>(trumps);
+                                point = clintons.Huff<Player>(trumps);
                                 if (point[0] == -1 && point[1] == -1)
                                 {
                                     turn = 't';
@@ -162,7 +160,7 @@ namespace Checkers
                                     button.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.clinton));
 
                                     button.Tag = "clinton";
-                                    
+
 
                                     clintons[curi, curj] = true;
                                 }
@@ -179,7 +177,7 @@ namespace Checkers
                             }
 
                             //Clintons's eat
-                            if (clintons.Eating<Trump>(prev, cur, curi, curj, previ, prevj, trumps))
+                            if (prev == 'c' && clintons.Eating<Player>(cur, curi, curj, previ, prevj, trumps))
                             {
                                 turn = 't';
                                 buttons[previ, prevj].BackgroundImage = null;
@@ -201,14 +199,14 @@ namespace Checkers
 
 
                             prev = cur;
-                            if (Calculations.CoinsCount<Trump>(trumps) == 0)
+                            if (Calculations.CoinsCount<Player>(trumps) == 0)
                             {
                                 RemoveButtons(buttons);
                                 button1.Location = new Point(420, 100);
                                 button1.Show();
                             }
                             else
-                            if (Calculations.CoinsCount<Clinton>(clintons) == 0)
+                            if (Calculations.CoinsCount<Player>(clintons) == 0)
                             {
                                 RemoveButtons(buttons);
                                 button1.Location = new Point(420, 100);
