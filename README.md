@@ -1,2 +1,2 @@
 # Checkers
-Coming Soon ^_^
+()[https://github.com/merisahakyan/Checkers/blob/master/checkersgif.gif]
