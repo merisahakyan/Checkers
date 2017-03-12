@@ -9,7 +9,10 @@ namespace Checkers
         public Checkers()
         {
             InitializeComponent();
+
             ClientSize = new Size(800, 400);
+            FormBorderStyle = FormBorderStyle.FixedDialog;
+            MaximizeBox = false;
             BackgroundImage = ((System.Drawing.Image)(Properties.Resources.startcover));
             startCombo.Items.Add("Hillary Clinton");
             startCombo.Items.Add("Donald Trump");
@@ -114,7 +117,7 @@ namespace Checkers
                                     }
                                     else
                                         button.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.trump1));
-                                    
+
                                 }
                                 else
                                 {
