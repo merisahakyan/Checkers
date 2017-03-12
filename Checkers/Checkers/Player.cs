@@ -7,15 +7,12 @@ using System.Threading.Tasks;
 
 namespace Checkers
 {
-    public class Player : ICoin,IDama
+    public class Player : ICoin, IDama
     {
         bool[,] bar = new bool[8, 8];
-       public  byte[,] isdama = new byte[8, 8];
+        public bool[,] isdama = new bool[8, 8];
 
-        int mini, maxi;
-
-        
-
+        int mini, maxi,j;
         public Player()
         {
             for (int i = 0; i < 8; i++)
@@ -23,7 +20,7 @@ namespace Checkers
                     bar[i, j] = false;
             for (int i = 0; i < 8; i++)
                 for (int j = 0; j < 8; j++)
-                    isdama[i, j] = 0;
+                    isdama[i, j] = false;
         }
         public bool this[int i, int j]
         {
@@ -47,10 +44,10 @@ namespace Checkers
             else return false;
         }
 
-        public bool Step(char turn,char prev,  int cur, int curi, int curj, int previ, int prevj)
+        public bool Step(char turn, char prev, int cur, int curi, int curj, int previ, int prevj)
         {
-            if (turn=='c'&&prev=='c'&& cur == 'n' && (curi == previ - 1 || curi == previ + 1) && (curj == prevj + 1)
-                ||(turn == 't' && prev == 't' && cur == 'n' && (curi == previ - 1 || curi == previ + 1) && (curj == prevj - 1)))
+            if (turn == 'c' && prev == 'c' && cur == 'n' && (curi == previ - 1 || curi == previ + 1) && (curj == prevj + 1)
+                || (turn == 't' && prev == 't' && cur == 'n' && (curi == previ - 1 || curi == previ + 1) && (curj == prevj - 1)))
                 return
                     true;
             else
@@ -98,41 +95,46 @@ namespace Checkers
             bool isclean = true;
             if (curi < previ && curj < prevj)
             {
-                prevj = curj;
+                j = curj;
                 mini = curi;
                 maxi = previ;
             }
             else if (curi > previ && curj > prevj)
             {
+                j = prevj;
                 mini = previ;
                 maxi = curi;
             }
             else if (curi > previ && curj < prevj)
             {
+                j = prevj;
                 mini = previ;
                 maxi = curi;
-                prevj = curj;
+                //bug prevj--
             }
             else if (curi < previ && curj > prevj)
             {
                 mini = curi;
                 maxi = previ;
+                j = curj;
+                //bug prevj--
             }
 
 
-            for (int i = mini + 1; i <= maxi; i++)
+            for (int i = mini + 1; i < maxi; i++)
             {
-                if (player[i, prevj + 1] || bar[i, prevj + 1])
+                if ((curi < previ && curj < prevj) || (curi > previ && curj > prevj))
+                    j++;
+                else if ((curi > previ && curj < prevj) || (curi < previ && curj > prevj))
+                    j--;
+                if (player[i, j] || bar[i, j])
                 {
                     isclean = false;
                     break;
                 }
-                prevj++;
+
             }
             return isclean;
-
         }
-
-
     }
 }

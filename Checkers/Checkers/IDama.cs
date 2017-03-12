@@ -8,7 +8,6 @@ namespace Checkers
 {
     public interface IDama
     {
-       
         bool Step(char turn, char prev, int cur, int curi, int curj, int previ, int prevj);
     }
 }
