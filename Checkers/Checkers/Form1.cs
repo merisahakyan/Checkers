@@ -85,8 +85,10 @@ namespace Checkers
                     }
 
                     if ((i + j) % 2 == 1)
+                    { 
                         button.Click += (s, ea) =>
                         {
+
                             curi = (button.Location.X - 200) / 50;
                             curj = button.Location.Y / 50;
 
@@ -271,9 +273,14 @@ namespace Checkers
                                 MessageBox.Show("Congratulations! The winner is Donald Trump.");
                             }
                         };
-                    buttons[i, j] = button;
-                    this.Controls.Add(button);
-                }
+                        button.MouseDown += (s, ea) => { button.FlatAppearance.BorderColor = Color.Silver; };
+                        button.MouseUp += (s, ea) => { button.FlatAppearance.BorderColor = Color.Black; };
+
+                    }
+                        buttons[i, j] = button;
+                        this.Controls.Add(button);
+                    }
+                
             }
         }
     }
