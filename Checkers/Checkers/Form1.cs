@@ -112,7 +112,7 @@ namespace Checkers
                                     trumps[previ, prevj] = false;
                                     trumps[curi, curj] = true;
 
-                                    if (curj == 0)
+                                    if (curj == 0 && !trumps.isdama[previ,prevj])
                                     {
                                         trumps.isdama[curi, curj] = true;
                                         button.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.damatrump));
@@ -210,7 +210,7 @@ namespace Checkers
                                     clintons[curi, curj] = true;
                                     button.Tag = "clinton";
 
-                                    if (curj == 7)
+                                    if (curj == 7 && !clintons.isdama[previ,prevj])
                                     {
                                         clintons.isdama[curi, curj] = true;
                                         button.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.damaclinton));
