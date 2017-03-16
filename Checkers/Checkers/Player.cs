@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Checkers
 {
@@ -11,6 +12,7 @@ namespace Checkers
     {
         bool[,] bar = new bool[8, 8];
         public bool[,] isdama = new bool[8, 8];
+        int removedi=0, removedj=0;
 
         int mini, maxi,j;
         public Player()
@@ -90,9 +92,11 @@ namespace Checkers
                     }
             return point;
         }
-        public bool Clean<T>(T player, int curi, int curj, int previ, int prevj) where T : ICoin
+        public byte Clean<T>(T player, int curi, int curj, int previ, int prevj,out byte count2) where T : ICoin
         {
-            bool isclean = true;
+            
+            byte count1 = 0;
+            count2 = 0;
             if (curi < previ && curj < prevj)
             {
                 j = curj;
@@ -127,14 +131,26 @@ namespace Checkers
                     j++;
                 else if ((curi > previ && curj < prevj) || (curi < previ && curj > prevj))
                     j--;
-                if (player[i, j] || bar[i, j])
+                if (player[i, j])
                 {
-                    isclean = false;
-                    break;
+                    count1++;
+                    removedi = i;
+                    removedj = j;
+                }
+                if (bar[i, j])
+                {
+                    count2++;
                 }
 
             }
-            return isclean;
+            return count1;
         }
+        public void RemoveCoin(Player player,ref Button [,] buttons)
+        {
+            buttons[removedi, removedj].BackgroundImage = null;
+            buttons[removedi, removedj].Tag = String.Empty;
+            player[removedi, removedj] = false;
+        }
+
     }
 }
