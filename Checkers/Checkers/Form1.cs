@@ -133,7 +133,7 @@ namespace Checkers
                             }
 
                             //Trump's eat
-                            if (prev == 't' && trumps.Eating<Player>(cur, curi, curj, previ, prevj, clintons))
+                            if (prev == 't' && trumps.Eating<Player>(cur, curi, curj, previ, prevj, clintons)&&!trumps.isdama[previ,prevj])
                             {
                                 turn = 'c';
                                 buttons[previ, prevj].BackgroundImage = null;
