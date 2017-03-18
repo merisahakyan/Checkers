@@ -45,12 +45,14 @@ namespace Checkers
             Button[,] buttons = new Button[8, 8];
             int[] point = new int[2];
             char prev = 'n', cur = 'n';
+
+            GameBoard gameboard = new GameBoard();
             Player clintons = new Player();
-            // Trump trumps = new Trump();
             Player trumps = new Player();
             int previ = 0, prevj = 0;
             int curi, curj;
-            byte count;
+            byte count1, count2;
+
 
             for (int i = 0; i < 8; i++)
             {
@@ -67,19 +69,14 @@ namespace Checkers
                         button.FlatAppearance.BorderColor = Color.Black;
                         if (j < 3)
                         {
-                            button.Tag = "clinton";
                             button.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.clinton));
-                            clintons[i, j] = true;
                         }
                         else if (j > 4 && j < 8)
                         {
-                            button.Tag = "trump";
                             button.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.trump1));
-                            trumps[i, j] = true;
                         }
                         else
                         {
-                            button.Tag = "none";
                             button.BackgroundImage = null;
                         }
                     }
@@ -92,34 +89,36 @@ namespace Checkers
                             curi = (button.Location.X - 200) / 50;
                             curj = button.Location.Y / 50;
 
-                            switch ((string)button.Tag)
+                            switch (gameboard[curi, curj])
                             {
-                                case "trump": cur = 't'; break;
-                                case "clinton": cur = 'c'; break;
-                                default: cur = 'n'; break;
+                                case 2: cur = 't'; break;
+                                case 20: cur = 't'; break;
+                                case 1: cur = 'c'; break;
+                                case 10: cur = 'c'; break;
+                                case 0: cur = 'n'; break;
                             }
 
                             //Trump's step
-                            if (turn == 't' && trumps.Step(turn, prev, cur, curi, curj, previ, prevj) && !trumps.isdama[previ, prevj])
+                            if (turn == 't' && trumps.Step(turn, prev, cur, curi, curj, previ, prevj) && gameboard[previ, prevj] == 2)
                             {
-                                point = trumps.Huff<Player>(clintons);
+                                point = trumps.Huff<GameBoard>(gameboard, 2, 1);
                                 if (point[0] == -1 && point[1] == -1)
                                 {
                                     turn = 'c';
                                     buttons[previ, prevj].BackgroundImage = null;
-                                    buttons[previ, prevj].Tag = string.Empty;
-                                    button.Tag = "trump";
-                                    trumps[previ, prevj] = false;
-                                    trumps[curi, curj] = true;
 
-                                    if (curj == 0 && !trumps.isdama[previ,prevj])
+                                    if (curj == 0 && gameboard[previ, prevj] == 2)
                                     {
-                                        trumps.isdama[curi, curj] = true;
+                                        gameboard[previ, prevj] = 0;
+                                        gameboard[curi, curj] = 20;
                                         button.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.damatrump));
                                     }
                                     else
+                                    {
+                                        gameboard[previ, prevj] = 0;
+                                        gameboard[curi, curj] = 2;
                                         button.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.trump1));
-
+                                    }
                                 }
                                 else
                                 {
@@ -127,49 +126,43 @@ namespace Checkers
                                     int y = point[1];
                                     turn = 'c';
                                     buttons[x, y].BackgroundImage = null;
-                                    buttons[x, y].Tag = string.Empty;
-                                    trumps[x, y] = false;
+                                    gameboard[x, y] = 0;
                                 }
                             }
 
                             //Trump's eat
-                            if (prev == 't' && trumps.Eating<Player>(cur, curi, curj, previ, prevj, clintons)&&!trumps.isdama[previ,prevj])
+                            if (prev == 't' && trumps.Eating<GameBoard>(cur, curi, curj, previ, prevj, gameboard, 1) && gameboard[previ, prevj] == 2)
                             {
                                 turn = 'c';
                                 buttons[previ, prevj].BackgroundImage = null;
-                                buttons[previ, prevj].Tag = string.Empty;
-                                //button.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.trump1));
-                                button.Tag = "trump";
-                                trumps[previ, prevj] = false;
-                                trumps[curi, curj] = true;
 
-                                if (curj == 0 && !trumps.isdama[previ,prevj])
+                                if (curj == 0 && gameboard[previ, prevj] == 2)
                                 {
-                                    trumps.isdama[curi, curj] = true;
+                                    gameboard[previ, prevj] = 0;
+                                    gameboard[curi, curj] = 20;
                                     button.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.damatrump));
                                 }
                                 else
+                                {
+                                    gameboard[previ, prevj] = 0;
+                                    gameboard[curi, curj] = 2;
                                     button.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.trump1));
-
-                                clintons[(previ + curi) / 2, (prevj + curj) / 2] = false;
-                                buttons[(previ + curi) / 2, (prevj + curj) / 2].Tag = string.Empty;
+                                }
+                                gameboard[(previ + curi) / 2, (prevj + curj) / 2] = 0;
                                 buttons[(previ + curi) / 2, (prevj + curj) / 2].BackgroundImage = null;
                             }
+
                             //Trump's dama step
-                            if (turn == 't' && prev == 't' && cur == 'n' && trumps.Clean<Player>(clintons, curi, curj, previ, prevj, out count) == 0 && count == 0 && trumps.isdama[previ, prevj])
+                            if (turn == 't' && prev == 't' && cur == 'n' && trumps.Clean<GameBoard>(curi, curj, previ, prevj, gameboard) && gameboard[previ, prevj] == 20)
                             {
-                                point = trumps.Huff<Player>(clintons);
+                                point = trumps.Huff<GameBoard>(gameboard, 2, 1);
                                 if (point[0] == -1 && point[1] == -1)
                                 {
                                     turn = 'c';
                                     buttons[previ, prevj].BackgroundImage = null;
-                                    buttons[previ, prevj].Tag = string.Empty;
-                                    trumps[previ, prevj] = false;
-                                    trumps[curi, curj] = true;
-                                    trumps.isdama[previ, prevj] = false;
-                                    trumps.isdama[curi, curj] = true;
                                     button.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.damatrump));
-                                    button.Tag = "trump";
+                                    gameboard[previ, prevj] = 0;
+                                    gameboard[curi, curj] = 20;
                                 }
                                 else
                                 {
@@ -177,46 +170,42 @@ namespace Checkers
                                     int y = point[1];
                                     turn = 'c';
                                     buttons[x, y].BackgroundImage = null;
-                                    buttons[x, y].Tag = string.Empty;
-                                    trumps[x, y] = false;
+                                    gameboard[x, y] = 0;
                                 }
                             }
+
                             //Trump dama eat
-                            if (prev == 't' && cur == 'n' && trumps.Clean<Player>(clintons, curi, curj, previ, prevj, out count) == 1 && count == 0 && trumps.isdama[previ, prevj])
+                            if (prev == 't' && cur == 'n' && trumps.CleanEat<GameBoard>(curi, curj, previ, prevj, gameboard, 2, 1) && gameboard[previ, prevj] == 20)
                             {
                                 turn = 'c';
-                                trumps.RemoveCoin(clintons, ref buttons);
-                                trumps[previ, prevj] = false;
-                                trumps[curi, curj] = true;
-                                trumps.isdama[previ, prevj] = false;
-                                trumps.isdama[curi, curj] = true;
+                                trumps.RemoveCoin(gameboard, ref buttons);
+                                gameboard[previ, prevj] = 0;
+                                gameboard[curi, curj] = 20;
                                 buttons[previ, prevj].BackgroundImage = null;
-                                buttons[previ, prevj].Tag = string.Empty;
                                 button.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.damatrump));
-                                button.Tag = "trump";
-
                             }
 
                             //Clinton's step
-                            if (turn == 'c' && clintons.Step(turn, prev, cur, curi, curj, previ, prevj) && !clintons.isdama[previ, prevj])
+                            if (turn == 'c' && clintons.Step(turn, prev, cur, curi, curj, previ, prevj) && gameboard[previ, prevj] == 1)
                             {
-                                point = clintons.Huff<Player>(trumps);
+                                point = clintons.Huff<GameBoard>(gameboard, 1, 2);
                                 if (point[0] == -1 && point[1] == -1)
                                 {
                                     turn = 't';
                                     buttons[previ, prevj].BackgroundImage = null;
-                                    buttons[previ, prevj].Tag = string.Empty;
-                                    clintons[previ, prevj] = false;
-                                    clintons[curi, curj] = true;
-                                    button.Tag = "clinton";
 
-                                    if (curj == 7 && !clintons.isdama[previ,prevj])
+                                    if (curj == 7 && gameboard[previ, prevj] == 1)
                                     {
-                                        clintons.isdama[curi, curj] = true;
+                                        gameboard[previ, prevj] = 0;
+                                        gameboard[curi, curj] = 10;
                                         button.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.damaclinton));
                                     }
                                     else
+                                    {
+                                        gameboard[previ, prevj] = 0;
+                                        gameboard[curi, curj] = 1;
                                         button.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.clinton));
+                                    }
                                 }
                                 else
                                 {
@@ -224,52 +213,45 @@ namespace Checkers
                                     int y = point[1];
                                     turn = 't';
                                     buttons[x, y].BackgroundImage = null;
-                                    buttons[x, y].Tag = string.Empty;
-                                    clintons[x, y] = false;
+                                    gameboard[x, y] = 0;
                                 }
 
                             }
 
                             //Clintons's eat
-                            if (prev == 'c' && clintons.Eating<Player>(cur, curi, curj, previ, prevj, trumps) && !clintons.isdama[previ, prevj])
+                            if (prev == 'c' && clintons.Eating<GameBoard>(cur, curi, curj, previ, prevj, gameboard, 2) && gameboard[previ, prevj] == 1)
                             {
                                 turn = 't';
                                 buttons[previ, prevj].BackgroundImage = null;
-                                buttons[previ, prevj].Tag = string.Empty;
-                                clintons[previ, prevj] = false;
-                                clintons[curi, curj] = true;
-                                //button.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.clinton));
-                                button.Tag = "clinton";
 
-                                if (curj == 7&& !clintons.isdama[previ,prevj])
+                                if (curj == 7 && gameboard[previ, prevj] == 1)
                                 {
-                                    clintons.isdama[curi, curj] = true;
+                                    gameboard[previ, prevj] = 0;
+                                    gameboard[curi, curj] = 10;
                                     button.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.damaclinton));
                                 }
                                 else
+                                {
+                                    gameboard[previ, prevj] = 0;
+                                    gameboard[curi, curj] = 1;
                                     button.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.clinton));
-
-                                trumps[(previ + curi) / 2, (prevj + curj) / 2] = false;
-                                buttons[(previ + curi) / 2, (prevj + curj) / 2].Tag = string.Empty;
+                                }
+                                gameboard[(previ + curi) / 2, (prevj + curj) / 2] = 0;
                                 buttons[(previ + curi) / 2, (prevj + curj) / 2].BackgroundImage = null;
 
                             }
 
                             //Clinton Dama step
-                            if (turn == 'c' && prev == 'c' && cur == 'n' && clintons.Clean<Player>(trumps, curi, curj, previ, prevj, out count) == 0 && count == 0 && clintons.isdama[previ, prevj])
+                            if (turn == 'c' && prev == 'c' && cur == 'n' && clintons.Clean<GameBoard>(curi, curj, previ, prevj, gameboard) && gameboard[previ, prevj] == 10)
                             {
-                                point = clintons.Huff<Player>(trumps);
+                                point = clintons.Huff<GameBoard>(gameboard, 1, 2);
                                 if (point[0] == -1 && point[1] == -1)
                                 {
                                     turn = 't';
                                     buttons[previ, prevj].BackgroundImage = null;
-                                    buttons[previ, prevj].Tag = string.Empty;
-                                    clintons[previ, prevj] = false;
-                                    clintons[curi, curj] = true;
-                                    clintons.isdama[previ, prevj] = false;
-                                    clintons.isdama[curi, curj] = true;
+                                    gameboard[previ, prevj] = 0;
+                                    gameboard[curi, curj] = 10;
                                     button.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.damaclinton));
-                                    button.Tag = "clinton";
                                 }
                                 else
                                 {
@@ -277,31 +259,27 @@ namespace Checkers
                                     int y = point[1];
                                     turn = 't';
                                     buttons[x, y].BackgroundImage = null;
-                                    buttons[x, y].Tag = string.Empty;
-                                    clintons[x, y] = false;
+                                    gameboard[x, y] = 0;
                                 }
                             }
+
                             //Clinton Dama eat
-                            if (prev == 'c' && cur == 'n' && clintons.Clean<Player>(trumps, curi, curj, previ, prevj, out count) == 1 && count == 0 && clintons.isdama[previ, prevj])
+                            if (prev == 'c' && cur == 'n' && clintons.CleanEat<GameBoard>(curi, curj, previ, prevj, gameboard, 1, 2) && gameboard[previ, prevj] == 10)
                             {
                                 turn = 't';
-                                clintons.RemoveCoin(trumps,ref buttons);
-                                clintons[previ, prevj] = false;
-                                clintons[curi, curj] = true;
-                                clintons.isdama[previ, prevj] = false;
-                                clintons.isdama[curi, curj] = true;
-                                buttons[previ,prevj].BackgroundImage = null;
-                                buttons[previ,prevj].Tag = string.Empty;
-                                button.BackgroundImage= ((System.Drawing.Image)(Properties.Resources.damaclinton));
-                                button.Tag = "clinton";
-
+                                clintons.RemoveCoin(gameboard, ref buttons);
+                                gameboard[previ, prevj] = 0;
+                                gameboard[curi, curj] = 10;
+                                buttons[previ, prevj].BackgroundImage = null;
+                                button.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.damaclinton));
                             }
 
 
-                                prev = cur;
+                            prev = cur;
                             previ = curi;
                             prevj = curj;
-                            if (Calculations.CoinsCount<Player>(trumps) == 0)
+                            Calculations.CoinsCount(gameboard, out count1, out count2);
+                            if (count2 == 0)
                             {
                                 RemoveButtons(buttons);
                                 button1.Show();
@@ -310,7 +288,7 @@ namespace Checkers
                                 MessageBox.Show("Congratulations! The winner is Hillary Clinton.");
                             }
                             else
-                            if (Calculations.CoinsCount<Player>(clintons) == 0)
+                            if (count1 == 0)
                             {
                                 RemoveButtons(buttons);
                                 button1.Show();
@@ -318,7 +296,7 @@ namespace Checkers
                                 startCombo.Show();
                                 MessageBox.Show("Congratulations! The winner is Donald Trump.");
                             }
-                            //Clinton dama eat
+                            
 
                         };
                         button.MouseDown += (s, ea) => { button.FlatAppearance.BorderColor = Color.Silver; };

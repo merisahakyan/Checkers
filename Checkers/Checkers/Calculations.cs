@@ -8,14 +8,16 @@ namespace Checkers
 {
     public class Calculations
     {
-        public static int CoinsCount<T>(T bars) where T : ICoin
+        public static void CoinsCount(GameBoard bars, out byte count1, out byte count2)
         {
-            int count = 0;
+            count1 = 0;
+            count2 = 0;
             for (int i = 0; i < 8; i++)
                 for (int j = 0; j < 8; j++)
-                    if (bars[i, j] == true)
-                        count++;
-            return count;
+                    if (bars[i, j] == 1)
+                        count1++;
+                    else if (bars[i, j] == 2)
+                        count2++;
         }
     }
 }
