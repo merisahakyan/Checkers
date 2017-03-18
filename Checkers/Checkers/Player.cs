@@ -12,6 +12,7 @@ namespace Checkers
     {
         int removedi = 0, removedj = 0;
         int mini, maxi, j;
+        int m = 0, n = 0;
 
         public bool Eating<T>(char cur, int curi, int curj, int previ, int prevj, T board, byte a) where T : GameBoard
         {
@@ -39,38 +40,115 @@ namespace Checkers
             int[] point = { -1, -1 };
             for (int i = 0; i < 6; i++)
                 for (int j = 0; j < 6; j++)
+                {
                     if (board[i, j] == a && (board[i + 1, j + 1] == b || board[i + 1, j + 1] == b * 10) && board[i + 2, j + 2] == 0)
                     {
                         point[0] = i;
                         point[1] = j;
                         return point;
                     }
+                    if (board[i, j] == a * 10)
+                    {
+                        m = i+1;
+                        n = j+1;
+                        while (board[m, n] == 0 && m < 7 && n < 7)
+                        {
+                            m++;
+                            n++;
+                        }
+                        if((board[m,n]==b|| board[m, n] == b*10)&&board[m+1,n+1]==0)
+                        {
+                            point[0] = i;
+                            point[1] = j;
+                            return point;
+                        }
+
+                    }
+                }
             for (int i = 2; i < 8; i++)
                 for (int j = 2; j < 8; j++)
+                {
                     if (board[i, j] == a && (board[i - 1, j - 1] == b || board[i - 1, j - 1] == b * 10) && board[i - 2, j - 2] == 0)
                     {
                         point[0] = i;
                         point[1] = j;
                         return point;
                     }
+                    if (board[i, j] == a * 10)
+                    {
+                        m = i-1;
+                        n = j-1;
+                        while (board[m, n] == 0 && m > 0 && n >0)
+                        {
+                            m--;
+                            n--;
+                        }
+                        if ((board[m, n] == b || board[m, n] == b * 10) && board[m - 1, n - 1] == 0)
+                        {
+                            point[0] = i;
+                            point[1] = j;
+                            return point;
+                        }
+
+                    }
+                }
             for (int i = 0; i < 6; i++)
                 for (int j = 2; j < 8; j++)
+                {
                     if (board[i, j] == a && (board[i + 1, j - 1] == b || board[i + 1, j - 1] == b * 10) && board[i + 2, j - 2] == 0)
                     {
                         point[0] = i;
                         point[1] = j;
                         return point;
                     }
+                    if (board[i, j] == a * 10)
+                    {
+                        m = i+1;
+                        n = j-1;
+                        while (board[m, n] == 0 && m < 7 && n > 0)
+                        {
+                            m++;
+                            n--;
+                        }
+                        if ((board[m, n] == b || board[m, n] == b * 10) && board[m + 1, n - 1] == 0)
+                        {
+                            point[0] = i;
+                            point[1] = j;
+                            return point;
+                        }
+
+                    }
+                }
             for (int i = 2; i < 8; i++)
                 for (int j = 0; j < 6; j++)
+                {
                     if (board[i, j] == a && (board[i - 1, j + 1] == b || board[i - 1, j + 1] == b * 10) && board[i - 2, j + 2] == 0)
                     {
                         point[0] = i;
                         point[1] = j;
                         return point;
                     }
+                    if (board[i, j] == a * 10)
+                    {
+                        m = i-1;
+                        n = j+1;
+                        while (board[m, n] == 0 && m >0 && n < 7)
+                        {
+                            m--;
+                            n++;
+                        }
+                        if ((board[m, n] == b || board[m, n] == b * 10) && board[m - 1, n + 1] == 0)
+                        {
+                            point[0] = i;
+                            point[1] = j;
+                            return point;
+                        }
+
+                    }
+                }
             return point;
         }
+
         public bool CleanEat<T>(int curi, int curj, int previ, int prevj, T board, byte a, byte b) where T : GameBoard
         {
 
@@ -126,6 +204,7 @@ namespace Checkers
                 return true;
             else return false;
         }
+
         public bool Clean<T>(int curi, int curj, int previ, int prevj, T board) where T : GameBoard
         {
 
