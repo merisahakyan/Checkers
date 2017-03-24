@@ -32,7 +32,6 @@ namespace Checkers
         private void button1_Click(object sender, System.EventArgs e)
         {
             BackgroundImage = ((System.Drawing.Image)(Properties.Resources.gamecover1));
-            //ClientSize = new Size(800, 400);
             char turn;
             if (startCombo.SelectedIndex == 1)
                 turn = 't';
@@ -91,9 +90,9 @@ namespace Checkers
 
                             switch (gameboard[curi, curj])
                             {
-                                case 2: cur = 't'; break;
+                                case 2:
                                 case 20: cur = 't'; break;
-                                case 1: cur = 'c'; break;
+                                case 1:
                                 case 10: cur = 'c'; break;
                                 case 0: cur = 'n'; break;
                             }
@@ -101,7 +100,7 @@ namespace Checkers
                             //Trump's step
                             if (turn == 't' && trumps.Step(turn, prev, cur, curi, curj, previ, prevj) && gameboard[previ, prevj] == 2)
                             {
-                                point = trumps.Huff<GameBoard>(gameboard, 2, 1);
+                                point = trumps.Huff(gameboard, 2, 1);
                                 if (point[0] == -1 && point[1] == -1)
                                 {
                                     turn = 'c';
@@ -131,7 +130,7 @@ namespace Checkers
                             }
 
                             //Trump's eat
-                            if (prev == 't' && trumps.Eating<GameBoard>(cur, curi, curj, previ, prevj, gameboard, 1) && gameboard[previ, prevj] == 2)
+                            if (prev == 't' && trumps.Eating(cur, curi, curj, previ, prevj, gameboard, 1) && gameboard[previ, prevj] == 2)
                             {
                                 turn = 'c';
                                 buttons[previ, prevj].BackgroundImage = null;
@@ -153,9 +152,9 @@ namespace Checkers
                             }
 
                             //Trump's dama step
-                            if (turn == 't' && prev == 't' && cur == 'n' && trumps.Clean<GameBoard>(curi, curj, previ, prevj, gameboard) && gameboard[previ, prevj] == 20)
+                            if (turn == 't' && prev == 't' && cur == 'n' && trumps.Clean(curi, curj, previ, prevj, gameboard) && gameboard[previ, prevj] == 20)
                             {
-                                point = trumps.Huff<GameBoard>(gameboard, 2, 1);
+                                point = trumps.Huff(gameboard, 2, 1);
                                 if (point[0] == -1 && point[1] == -1)
                                 {
                                     turn = 'c';
@@ -175,7 +174,7 @@ namespace Checkers
                             }
 
                             //Trump dama eat
-                            if (prev == 't' && cur == 'n' && trumps.CleanEat<GameBoard>(curi, curj, previ, prevj, gameboard, 2, 1) && gameboard[previ, prevj] == 20)
+                            if (prev == 't' && cur == 'n' && trumps.DamaEat(curi, curj, previ, prevj, gameboard, 2, 1) && gameboard[previ, prevj] == 20)
                             {
                                 turn = 'c';
                                 trumps.RemoveCoin(gameboard, ref buttons);
@@ -188,7 +187,7 @@ namespace Checkers
                             //Clinton's step
                             if (turn == 'c' && clintons.Step(turn, prev, cur, curi, curj, previ, prevj) && gameboard[previ, prevj] == 1)
                             {
-                                point = clintons.Huff<GameBoard>(gameboard, 1, 2);
+                                point = clintons.Huff(gameboard, 1, 2);
                                 if (point[0] == -1 && point[1] == -1)
                                 {
                                     turn = 't';
@@ -219,7 +218,7 @@ namespace Checkers
                             }
 
                             //Clintons's eat
-                            if (prev == 'c' && clintons.Eating<GameBoard>(cur, curi, curj, previ, prevj, gameboard, 2) && gameboard[previ, prevj] == 1)
+                            if (prev == 'c' && clintons.Eating(cur, curi, curj, previ, prevj, gameboard, 2) && gameboard[previ, prevj] == 1)
                             {
                                 turn = 't';
                                 buttons[previ, prevj].BackgroundImage = null;
@@ -242,9 +241,9 @@ namespace Checkers
                             }
 
                             //Clinton Dama step
-                            if (turn == 'c' && prev == 'c' && cur == 'n' && clintons.Clean<GameBoard>(curi, curj, previ, prevj, gameboard) && gameboard[previ, prevj] == 10)
+                            if (turn == 'c' && prev == 'c' && cur == 'n' && clintons.Clean(curi, curj, previ, prevj, gameboard) && gameboard[previ, prevj] == 10)
                             {
-                                point = clintons.Huff<GameBoard>(gameboard, 1, 2);
+                                point = clintons.Huff(gameboard, 1, 2);
                                 if (point[0] == -1 && point[1] == -1)
                                 {
                                     turn = 't';
@@ -264,7 +263,7 @@ namespace Checkers
                             }
 
                             //Clinton Dama eat
-                            if (prev == 'c' && cur == 'n' && clintons.CleanEat<GameBoard>(curi, curj, previ, prevj, gameboard, 1, 2) && gameboard[previ, prevj] == 10)
+                            if (prev == 'c' && cur == 'n' && clintons.DamaEat(curi, curj, previ, prevj, gameboard, 1, 2) && gameboard[previ, prevj] == 10)
                             {
                                 turn = 't';
                                 clintons.RemoveCoin(gameboard, ref buttons);
@@ -296,7 +295,7 @@ namespace Checkers
                                 startCombo.Show();
                                 MessageBox.Show("Congratulations! The winner is Donald Trump.");
                             }
-                            
+
 
                         };
                         button.MouseDown += (s, ea) => { button.FlatAppearance.BorderColor = Color.Silver; };

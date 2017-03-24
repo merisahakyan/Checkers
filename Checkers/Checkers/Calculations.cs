@@ -14,9 +14,9 @@ namespace Checkers
             count2 = 0;
             for (int i = 0; i < 8; i++)
                 for (int j = 0; j < 8; j++)
-                    if (bars[i, j] == 1)
+                    if (bars[i, j] == 1 || bars[i, j] == 10)
                         count1++;
-                    else if (bars[i, j] == 2)
+                    else if (bars[i, j] == 2|| bars[i, j] == 20)
                         count2++;
         }
     }

@@ -14,7 +14,7 @@ namespace Checkers
         int mini, maxi, j;
         int m = 0, n = 0;
 
-        public bool Eating<T>(char cur, int curi, int curj, int previ, int prevj, T board, byte a) where T : GameBoard
+        public bool Eating(char cur, int curi, int curj, int previ, int prevj, GameBoard board, byte a) 
         {
             if ((cur == 'n' &&
                             ((curi == previ - 2 && curj == prevj + 2 && (board[previ - 1, prevj + 1] == a || board[previ - 1, prevj + 1] == a * 10))
@@ -35,7 +35,7 @@ namespace Checkers
             else
                 return false;
         }
-        public int[] Huff<T>(T board, byte a, byte b) where T : GameBoard
+        public int[] Huff(GameBoard board, byte a, byte b) 
         {
             int[] point = { -1, -1 };
             for (int i = 0; i < 6; i++)
@@ -149,7 +149,7 @@ namespace Checkers
             return point;
         }
 
-        public bool CleanEat<T>(int curi, int curj, int previ, int prevj, T board, byte a, byte b) where T : GameBoard
+        public bool DamaEat(int curi, int curj, int previ, int prevj, GameBoard board, byte a, byte b) 
         {
 
             byte count1 = 0;
@@ -205,7 +205,7 @@ namespace Checkers
             else return false;
         }
 
-        public bool Clean<T>(int curi, int curj, int previ, int prevj, T board) where T : GameBoard
+        public bool Clean(int curi, int curj, int previ, int prevj, GameBoard board) 
         {
 
             byte count = 0;
