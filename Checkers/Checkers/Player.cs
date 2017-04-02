@@ -14,7 +14,7 @@ namespace Checkers
         int mini, maxi, j;
         int m = 0, n = 0;
 
-        public bool Eating(char cur, int curi, int curj, int previ, int prevj, GameBoard board, byte a) 
+        public virtual bool  Eating(char cur, int curi, int curj, int previ, int prevj, GameBoard board, byte a) 
         {
             if ((cur == 'n' &&
                             ((curi == previ - 2 && curj == prevj + 2 && (board[previ - 1, prevj + 1] == a || board[previ - 1, prevj + 1] == a * 10))
@@ -26,7 +26,7 @@ namespace Checkers
             else return false;
         }
 
-        public bool Step(char turn, char prev, int cur, int curi, int curj, int previ, int prevj)
+        public  bool Step(char turn, char prev, int cur, int curi, int curj, int previ, int prevj)
         {
             if (turn == 'c' && prev == 'c' && cur == 'n' && (curi == previ - 1 || curi == previ + 1) && (curj == prevj + 1)
                 || (turn == 't' && prev == 't' && cur == 'n' && (curi == previ - 1 || curi == previ + 1) && (curj == prevj - 1)))
@@ -35,16 +35,18 @@ namespace Checkers
             else
                 return false;
         }
-        public int[] Huff(GameBoard board, byte a, byte b) 
+        public virtual int[,] Huff(GameBoard board, byte a, byte b) 
         {
-            int[] point = { -1, -1 };
+            int[,] point = { { -1, -1 }, { -1, -1 } };
             for (int i = 0; i < 6; i++)
                 for (int j = 0; j < 6; j++)
                 {
                     if (board[i, j] == a && (board[i + 1, j + 1] == b || board[i + 1, j + 1] == b * 10) && board[i + 2, j + 2] == 0)
                     {
-                        point[0] = i;
-                        point[1] = j;
+                        point[0,0] = i;
+                        point[0,1] = j;
+                        point[1, 0] = i+1;
+                        point[1, 1] = j+1;
                         return point;
                     }
                     if (board[i, j] == a * 10)
@@ -58,8 +60,10 @@ namespace Checkers
                         }
                         if((board[m,n]==b|| board[m, n] == b*10)&&board[m+1,n+1]==0)
                         {
-                            point[0] = i;
-                            point[1] = j;
+                            point[0, 0] = i;
+                            point[0, 1] = j;
+                            point[1, 0] = m;
+                            point[1, 1] = n;
                             return point;
                         }
 
@@ -70,8 +74,10 @@ namespace Checkers
                 {
                     if (board[i, j] == a && (board[i - 1, j - 1] == b || board[i - 1, j - 1] == b * 10) && board[i - 2, j - 2] == 0)
                     {
-                        point[0] = i;
-                        point[1] = j;
+                        point[0, 0] = i;
+                        point[0, 1] = j;
+                        point[1, 0] = i - 1;
+                        point[1,1] = j - 1;
                         return point;
                     }
                     if (board[i, j] == a * 10)
@@ -85,8 +91,10 @@ namespace Checkers
                         }
                         if ((board[m, n] == b || board[m, n] == b * 10) && board[m - 1, n - 1] == 0)
                         {
-                            point[0] = i;
-                            point[1] = j;
+                            point[0, 0] = i;
+                            point[0, 1] = j;
+                            point[1, 0] = m;
+                            point[1, 1] =n;
                             return point;
                         }
 
@@ -97,8 +105,10 @@ namespace Checkers
                 {
                     if (board[i, j] == a && (board[i + 1, j - 1] == b || board[i + 1, j - 1] == b * 10) && board[i + 2, j - 2] == 0)
                     {
-                        point[0] = i;
-                        point[1] = j;
+                        point[0, 0] = i;
+                        point[0, 1] = j;
+                        point[1, 0] = i + 1;
+                        point[1, 1] = j - 1;
                         return point;
                     }
                     if (board[i, j] == a * 10)
@@ -112,8 +122,10 @@ namespace Checkers
                         }
                         if ((board[m, n] == b || board[m, n] == b * 10) && board[m + 1, n - 1] == 0)
                         {
-                            point[0] = i;
-                            point[1] = j;
+                            point[0, 0] = i;
+                            point[0, 1] = j;
+                            point[1, 0] = m;
+                            point[1, 1] = n;
                             return point;
                         }
 
@@ -124,8 +136,10 @@ namespace Checkers
                 {
                     if (board[i, j] == a && (board[i - 1, j + 1] == b || board[i - 1, j + 1] == b * 10) && board[i - 2, j + 2] == 0)
                     {
-                        point[0] = i;
-                        point[1] = j;
+                        point[0, 0] = i;
+                        point[0, 1] = j;
+                        point[1, 0] = i - 1;
+                        point[1, 1] = j + 1;
                         return point;
                     }
                     if (board[i, j] == a * 10)
@@ -139,8 +153,10 @@ namespace Checkers
                         }
                         if ((board[m, n] == b || board[m, n] == b * 10) && board[m - 1, n + 1] == 0)
                         {
-                            point[0] = i;
-                            point[1] = j;
+                            point[0, 0] = i;
+                            point[0, 1] = j;
+                            point[1, 0] = m;
+                            point[1, 1] = n;
                             return point;
                         }
 
@@ -149,7 +165,7 @@ namespace Checkers
             return point;
         }
 
-        public bool DamaEat(int curi, int curj, int previ, int prevj, GameBoard board, byte a, byte b) 
+        public virtual bool DamaEat(int curi, int curj, int previ, int prevj, GameBoard board, byte a, byte b) 
         {
 
             byte count1 = 0;
@@ -205,7 +221,7 @@ namespace Checkers
             else return false;
         }
 
-        public bool Clean(int curi, int curj, int previ, int prevj, GameBoard board) 
+        public virtual bool Clean(int curi, int curj, int previ, int prevj, GameBoard board) 
         {
 
             byte count = 0;
@@ -254,7 +270,7 @@ namespace Checkers
                 return true;
             else return false;
         }
-        public void RemoveCoin(GameBoard board, ref Button[,] buttons)
+        public virtual void RemoveCoin(GameBoard board, ref Button[,] buttons)
         {
             buttons[removedi, removedj].BackgroundImage = null;
             board[removedi, removedj] = 0;
