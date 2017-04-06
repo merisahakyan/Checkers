@@ -261,8 +261,8 @@ namespace Checkers
 
 
 
-        
-        public void AutoStep(AutoPlayer clintons, int[,] point, ref char turn, ref GameBoard gameboard, ref Button[,] buttons,out bool message)
+
+        public void AutoStep(AutoPlayer clintons, int[,] point, ref char turn, ref GameBoard gameboard, ref Button[,] buttons, out bool message)
         {
             message = false;
             point = clintons.Huff(gameboard, 1, 2);
@@ -271,25 +271,48 @@ namespace Checkers
                 turn = 't';
                 int[,] coins = clintons.Step(gameboard);
 
-                gameboard[coins[0, 0], coins[0, 1]] = 0;
-                gameboard[coins[1, 0], coins[1, 1]] = 1;
+                //gameboard[coins[0, 0], coins[0, 1]] = 0;
+                //gameboard[coins[1, 0], coins[1, 1]] = 1;
 
                 buttons[coins[0, 0], coins[0, 1]].BackgroundImage = null;
-                buttons[coins[1, 0], coins[1, 1]].BackgroundImage = ((System.Drawing.Image)(Properties.Resources.clinton));
-
+                //buttons[coins[1, 0], coins[1, 1]].BackgroundImage = ((System.Drawing.Image)(Properties.Resources.clinton));
+                if (coins[1, 1] == 7 && gameboard[coins[0, 0], coins[0, 1]] == 1)
+                {
+                    gameboard[coins[0, 0], coins[0, 1]] = 0;
+                    gameboard[coins[1, 0], coins[1, 1]] = 10;
+                    buttons[coins[1, 0], coins[1, 1]].BackgroundImage = ((System.Drawing.Image)(Properties.Resources.damaclinton));
+                }
+                else
+                {
+                    gameboard[coins[0, 0], coins[0, 1]] = 0;
+                    gameboard[coins[1, 0], coins[1, 1]] = 1;
+                    buttons[coins[1, 0], coins[1, 1]].BackgroundImage = ((System.Drawing.Image)(Properties.Resources.clinton));
+                }
             }
             else
             {
                 turn = 't';
 
-                gameboard[point[0, 0], point[0, 1]] = 0;
-                gameboard[point[1, 0], point[1, 1]] = 0;
-                gameboard[point[0, 0] + 2 * (point[1, 0] - point[0, 0]), point[0, 1] + 2 * (point[1, 1] - point[0, 1])] = 1;
+                if ((point[1, 1] == 6 && gameboard[point[0, 0], point[0, 1]] == 1) || gameboard[point[0, 0], point[0, 1]]==10)
+                {
+                    gameboard[point[0, 0], point[0, 1]] = 0;
+                    gameboard[point[1, 0], point[1, 1]] = 0;
+                    gameboard[point[0, 0] + 2 * (point[1, 0] - point[0, 0]), point[0, 1] + 2 * (point[1, 1] - point[0, 1])] = 10;
 
-                buttons[point[0, 0], point[0, 1]].BackgroundImage = null;
-                buttons[point[1, 0], point[1, 1]].BackgroundImage = null;
-                buttons[point[0, 0] + 2 * (point[1, 0] - point[0, 0]), point[0, 1] + 2 * (point[1, 1] - point[0, 1])].BackgroundImage = ((System.Drawing.Image)(Properties.Resources.clinton));
+                    buttons[point[0, 0], point[0, 1]].BackgroundImage = null;
+                    buttons[point[1, 0], point[1, 1]].BackgroundImage = null;
+                    buttons[point[0, 0] + 2 * (point[1, 0] - point[0, 0]), point[0, 1] + 2 * (point[1, 1] - point[0, 1])].BackgroundImage = ((System.Drawing.Image)(Properties.Resources.damaclinton));
+                }
+                else
+                {
+                    gameboard[point[0, 0], point[0, 1]] = 0;
+                    gameboard[point[1, 0], point[1, 1]] = 0;
+                    gameboard[point[0, 0] + 2 * (point[1, 0] - point[0, 0]), point[0, 1] + 2 * (point[1, 1] - point[0, 1])] = 1;
 
+                    buttons[point[0, 0], point[0, 1]].BackgroundImage = null;
+                    buttons[point[1, 0], point[1, 1]].BackgroundImage = null;
+                    buttons[point[0, 0] + 2 * (point[1, 0] - point[0, 0]), point[0, 1] + 2 * (point[1, 1] - point[0, 1])].BackgroundImage = ((System.Drawing.Image)(Properties.Resources.clinton));
+                }
             }
         }
     }
