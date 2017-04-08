@@ -37,7 +37,7 @@ namespace Checkers
         }
         public virtual int[,] Huff(GameBoard board, byte a, byte b) 
         {
-            int[,] point = { { -1, -1 }, { -1, -1 } };
+            int[,] point = { { -1, -1 }, { -1, -1 }, { -1,-1} };
             for (int i = 0; i < 6; i++)
                 for (int j = 0; j < 6; j++)
                 {
@@ -47,6 +47,8 @@ namespace Checkers
                         point[0,1] = j;
                         point[1, 0] = i+1;
                         point[1, 1] = j+1;
+                        point[2, 0] = i + 2;
+                        point[2, 1] = j + 2;
                         return point;
                     }
                     if (board[i, j] == a * 10)
@@ -64,6 +66,8 @@ namespace Checkers
                             point[0, 1] = j;
                             point[1, 0] = m;
                             point[1, 1] = n;
+                            point[2, 0] = m + 1;
+                            point[2, 1] = n + 1;
                             return point;
                         }
 
@@ -78,6 +82,8 @@ namespace Checkers
                         point[0, 1] = j;
                         point[1, 0] = i - 1;
                         point[1,1] = j - 1;
+                        point[2, 0] = i - 2;
+                        point[2, 1] = j -2;
                         return point;
                     }
                     if (board[i, j] == a * 10)
@@ -95,6 +101,8 @@ namespace Checkers
                             point[0, 1] = j;
                             point[1, 0] = m;
                             point[1, 1] =n;
+                            point[2, 0] = m-1;
+                            point[2, 1] = n-1;
                             return point;
                         }
 
@@ -109,6 +117,8 @@ namespace Checkers
                         point[0, 1] = j;
                         point[1, 0] = i + 1;
                         point[1, 1] = j - 1;
+                        point[2, 0] = i + 2;
+                        point[2, 1] = j -2;
                         return point;
                     }
                     if (board[i, j] == a * 10)
@@ -126,6 +136,8 @@ namespace Checkers
                             point[0, 1] = j;
                             point[1, 0] = m;
                             point[1, 1] = n;
+                            point[2, 0] = m+1;
+                            point[2, 1] = n-1;
                             return point;
                         }
 
@@ -140,6 +152,8 @@ namespace Checkers
                         point[0, 1] = j;
                         point[1, 0] = i - 1;
                         point[1, 1] = j + 1;
+                        point[2, 0] = i -2;
+                        point[2, 1] = j + 2;
                         return point;
                     }
                     if (board[i, j] == a * 10)
@@ -157,6 +171,8 @@ namespace Checkers
                             point[0, 1] = j;
                             point[1, 0] = m;
                             point[1, 1] = n;
+                            point[2, 0] = m-1;
+                            point[2, 1] = n+1;
                             return point;
                         }
 

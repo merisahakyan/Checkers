@@ -83,7 +83,7 @@ namespace Checkers
 
 
 
-        int[,] point = { { -1, -1 }, { -1, -1 } };
+        int[,] point = { { -1, -1 }, { -1, -1 } , { -1, -1 } };
         GameBoard newboard;
         //Random r = new Random(6);
         //int random;
@@ -128,7 +128,11 @@ namespace Checkers
                                 }
                                 newboard[i, j] = 1;
                                 newboard[ii, jj] = 0;
+                                
                             }
+                            if (jj == 7)
+                                mycoin.rightrisk = -1;
+
                         }
                         else if (i == 7)
                         {
@@ -156,7 +160,10 @@ namespace Checkers
                                 }
                                 newboard[i, j] = 1;
                                 newboard[ii, jj] = 0;
+                                
                             }
+                            if (jj == 7)
+                                mycoin.leftrisk = -1;
                         }
                         else
                         {
@@ -181,8 +188,10 @@ namespace Checkers
                                     mycoin.leftrisk++;
                                 newboard[i, j] = 1;
                                 newboard[ii, jj] = 0;
+                                
                             }
-
+                            if (jj == 7)
+                                mycoin.leftrisk = -1;
 
 
                             //right
@@ -206,7 +215,10 @@ namespace Checkers
                                     mycoin.rightrisk++;
                                 newboard[i, j] = 1;
                                 newboard[ii, jj] = 0;
+                                
                             }
+                            if (jj == 7)
+                                mycoin.rightrisk = -1;
 
                         }
 
@@ -297,21 +309,21 @@ namespace Checkers
                 {
                     gameboard[point[0, 0], point[0, 1]] = 0;
                     gameboard[point[1, 0], point[1, 1]] = 0;
-                    gameboard[point[0, 0] + 2 * (point[1, 0] - point[0, 0]), point[0, 1] + 2 * (point[1, 1] - point[0, 1])] = 10;
+                    gameboard[point[2, 0] ,point[2, 1]] = 10;
 
                     buttons[point[0, 0], point[0, 1]].BackgroundImage = null;
                     buttons[point[1, 0], point[1, 1]].BackgroundImage = null;
-                    buttons[point[0, 0] + 2 * (point[1, 0] - point[0, 0]), point[0, 1] + 2 * (point[1, 1] - point[0, 1])].BackgroundImage = ((System.Drawing.Image)(Properties.Resources.damaclinton));
+                    buttons[point[2, 0], point[2, 1]].BackgroundImage = ((System.Drawing.Image)(Properties.Resources.damaclinton));
                 }
                 else
                 {
                     gameboard[point[0, 0], point[0, 1]] = 0;
                     gameboard[point[1, 0], point[1, 1]] = 0;
-                    gameboard[point[0, 0] + 2 * (point[1, 0] - point[0, 0]), point[0, 1] + 2 * (point[1, 1] - point[0, 1])] = 1;
+                    gameboard[point[2, 0], point[2, 1]] = 1;
 
                     buttons[point[0, 0], point[0, 1]].BackgroundImage = null;
                     buttons[point[1, 0], point[1, 1]].BackgroundImage = null;
-                    buttons[point[0, 0] + 2 * (point[1, 0] - point[0, 0]), point[0, 1] + 2 * (point[1, 1] - point[0, 1])].BackgroundImage = ((System.Drawing.Image)(Properties.Resources.clinton));
+                    buttons[point[2, 0], point[2, 1]].BackgroundImage = ((System.Drawing.Image)(Properties.Resources.clinton));
                 }
             }
         }

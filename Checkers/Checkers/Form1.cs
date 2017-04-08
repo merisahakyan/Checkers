@@ -41,7 +41,7 @@ namespace Checkers
             byte count1, count2;
             bool message = false;
             Button[,] buttons = new Button[8, 8];
-            int[,] point2 = new int[2, 2];
+            int[,] point2 = new int[3, 2];
             
 
             button1.Hide();
