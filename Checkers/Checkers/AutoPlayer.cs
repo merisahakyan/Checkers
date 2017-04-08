@@ -83,11 +83,12 @@ namespace Checkers
 
 
 
-        int[,] point = { { -1, -1 }, { -1, -1 } , { -1, -1 } };
+        int[,] point = { { -1, -1 }, { -1, -1 }, { -1, -1 } };
         GameBoard newboard;
         //Random r = new Random(6);
         //int random;
         int ii, jj;
+        bool message;
 
         public int[,] Step(GameBoard board)
         {
@@ -128,7 +129,7 @@ namespace Checkers
                                 }
                                 newboard[i, j] = 1;
                                 newboard[ii, jj] = 0;
-                                
+
                             }
                             if (jj == 7)
                                 mycoin.rightrisk = -1;
@@ -160,7 +161,7 @@ namespace Checkers
                                 }
                                 newboard[i, j] = 1;
                                 newboard[ii, jj] = 0;
-                                
+
                             }
                             if (jj == 7)
                                 mycoin.leftrisk = -1;
@@ -188,7 +189,7 @@ namespace Checkers
                                     mycoin.leftrisk++;
                                 newboard[i, j] = 1;
                                 newboard[ii, jj] = 0;
-                                
+
                             }
                             if (jj == 7)
                                 mycoin.leftrisk = -1;
@@ -215,7 +216,7 @@ namespace Checkers
                                     mycoin.rightrisk++;
                                 newboard[i, j] = 1;
                                 newboard[ii, jj] = 0;
-                                
+
                             }
                             if (jj == 7)
                                 mycoin.rightrisk = -1;
@@ -228,7 +229,7 @@ namespace Checkers
 
             List<int?> right = MyCoin.RightSort(mycoins);
             List<int?> left = MyCoin.LeftSort(mycoins);
-            if (right != null && left != null)
+            if (right.Count!=0  && left.Count!=0)
             {
                 MyCoin rcoin = MyCoin.FindByRightRisk(right[0], mycoins);
                 MyCoin lcoin = MyCoin.FindByLeftRisk(left[0], mycoins);
@@ -249,7 +250,7 @@ namespace Checkers
             }
             else
             {
-                if (right == null && left != null)
+                if (right.Count == 0 && left.Count != 0)
                 {
                     MyCoin lcoin = MyCoin.FindByLeftRisk(left[0], mycoins);
                     point[0, 0] = lcoin.x;
@@ -258,7 +259,7 @@ namespace Checkers
                     point[1, 1] = lcoin.y + 1;
                 }
                 else
-                    if (right != null && left == null)
+                    if (right.Count != 0 && left.Count == 0)
                 {
                     MyCoin rcoin = MyCoin.FindByRightRisk(right[0], mycoins);
                     point[0, 0] = rcoin.x;
@@ -266,6 +267,8 @@ namespace Checkers
                     point[1, 0] = rcoin.x + 1;
                     point[1, 1] = rcoin.y + 1;
                 }
+                else if (right.Count == 0 && left.Count == 0)
+                    message = true;
             }
             return point;
         }
@@ -276,18 +279,15 @@ namespace Checkers
 
         public void AutoStep(AutoPlayer clintons, int[,] point, ref char turn, ref GameBoard gameboard, ref Button[,] buttons, out bool message)
         {
-            message = false;
+            
             point = clintons.Huff(gameboard, 1, 2);
             if (point[0, 0] == -1 && point[0, 1] == -1)
             {
                 turn = 't';
                 int[,] coins = clintons.Step(gameboard);
 
-                //gameboard[coins[0, 0], coins[0, 1]] = 0;
-                //gameboard[coins[1, 0], coins[1, 1]] = 1;
 
                 buttons[coins[0, 0], coins[0, 1]].BackgroundImage = null;
-                //buttons[coins[1, 0], coins[1, 1]].BackgroundImage = ((System.Drawing.Image)(Properties.Resources.clinton));
                 if (coins[1, 1] == 7 && gameboard[coins[0, 0], coins[0, 1]] == 1)
                 {
                     gameboard[coins[0, 0], coins[0, 1]] = 0;
@@ -305,11 +305,11 @@ namespace Checkers
             {
                 turn = 't';
 
-                if ((point[1, 1] == 6 && gameboard[point[0, 0], point[0, 1]] == 1) || gameboard[point[0, 0], point[0, 1]]==10)
+                if ((point[1, 1] == 6 && gameboard[point[0, 0], point[0, 1]] == 1) || gameboard[point[0, 0], point[0, 1]] == 10)
                 {
                     gameboard[point[0, 0], point[0, 1]] = 0;
                     gameboard[point[1, 0], point[1, 1]] = 0;
-                    gameboard[point[2, 0] ,point[2, 1]] = 10;
+                    gameboard[point[2, 0], point[2, 1]] = 10;
 
                     buttons[point[0, 0], point[0, 1]].BackgroundImage = null;
                     buttons[point[1, 0], point[1, 1]].BackgroundImage = null;
@@ -326,6 +326,7 @@ namespace Checkers
                     buttons[point[2, 0], point[2, 1]].BackgroundImage = ((System.Drawing.Image)(Properties.Resources.clinton));
                 }
             }
+            message = this.message;
         }
     }
 }

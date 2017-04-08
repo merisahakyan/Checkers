@@ -39,15 +39,15 @@ namespace Checkers
             int previous_i = 0, previous_j = 0;
             int current_i, current_j;
             byte count1, count2;
-            bool message = false;
+            bool message = false ;
             Button[,] buttons = new Button[8, 8];
             int[,] point2 = new int[3, 2];
-            
+
 
             button1.Hide();
             startCombo.Hide();
             choosestart.Hide();
-           
+
 
 
             GameBoard gameboard = new GameBoard();
@@ -185,6 +185,8 @@ namespace Checkers
                                         buttons[x, y].BackgroundImage = null;
                                         gameboard[x, y] = 0;
                                     }
+                                    Thread.Sleep(500);
+                                    clinton.AutoStep(clinton, point2, ref turn, ref gameboard, ref buttons, out message);
                                 }
 
                                 //Trump dama eat
@@ -196,12 +198,18 @@ namespace Checkers
                                     gameboard[current_i, current_j] = 20;
                                     buttons[previous_i, previous_j].BackgroundImage = null;
                                     button.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.damatrump));
+
+                                    Thread.Sleep(500);
+                                    clinton.AutoStep(clinton, point2, ref turn, ref gameboard, ref buttons, out message);
                                 }
+
+
+
                                 previous = current;
                                 previous_i = current_i;
                                 previous_j = current_j;
 
-                                
+
                                 Calculations.CoinsCount(gameboard, out count1, out count2);
                                 if (count2 == 0)
                                 {
@@ -326,7 +334,7 @@ namespace Checkers
                                 if (turn == 'c' && clintons.Step(turn, previous, current, current_i, current_j, previous_i, previous_j) && gameboard[previous_i, previous_j] == 1)
                                 {
                                     point2 = clintons.Huff(gameboard, 1, 2);
-                                    if (point2[0,0] == -1 && point2[0,1] == -1)
+                                    if (point2[0, 0] == -1 && point2[0, 1] == -1)
                                     {
                                         turn = 't';
                                         buttons[previous_i, previous_j].BackgroundImage = null;
@@ -346,8 +354,8 @@ namespace Checkers
                                     }
                                     else
                                     {
-                                        int x = point2[0,0];
-                                        int y = point2[0,1];
+                                        int x = point2[0, 0];
+                                        int y = point2[0, 1];
                                         turn = 't';
                                         buttons[x, y].BackgroundImage = null;
                                         gameboard[x, y] = 0;
@@ -382,7 +390,7 @@ namespace Checkers
                                 if (turn == 'c' && previous == 'c' && current == 'n' && clintons.Clean(current_i, current_j, previous_i, previous_j, gameboard) && gameboard[previous_i, previous_j] == 10)
                                 {
                                     point2 = clintons.Huff(gameboard, 1, 2);
-                                    if (point2[0,0] == -1 && point2[0,1] == -1)
+                                    if (point2[0, 0] == -1 && point2[0, 1] == -1)
                                     {
                                         turn = 't';
                                         buttons[previous_i, previous_j].BackgroundImage = null;
@@ -392,8 +400,8 @@ namespace Checkers
                                     }
                                     else
                                     {
-                                        int x = point2[0,0];
-                                        int y = point2[0,1];
+                                        int x = point2[0, 0];
+                                        int y = point2[0, 1];
                                         turn = 't';
                                         buttons[x, y].BackgroundImage = null;
                                         gameboard[x, y] = 0;
@@ -425,7 +433,7 @@ namespace Checkers
                                     MessageBox.Show("Congratulations! The winner is Hillary Clinton.");
                                 }
                                 else
-                                if (count1 == 0 )
+                                if (count1 == 0)
                                 {
                                     RemoveButtons(buttons);
                                     button1.Show();
